@@ -1,6 +1,7 @@
 # TP1EngSoftware
 ### Trabalho prático em grupo para disciplina de Engenharia de Software
-### Autores
+
+## Autores
 - Denis Augusto de Bastos Gaillac
 - Fagner Altino Alves
 - Lucas Oliveira Machado de Sousa
@@ -13,5 +14,8 @@ Plataforma para gerenciar atividades de estudo. O usuário cadastra suas ativida
 Possível feature: Quando uma atividade é concluída, o usuário fornece o tempo gasto. Com isso, é possível visualizar um gráfico burndown que parte da carga horária prevista para a matéria e desconta o tempo efetivamente gasto pelo aluno.
 
 ## Escopo Tecnológico
+Tecnologias para desenvolvimento:
+Frontend: HTML5, CSS3, Angular.io e Bootstrap | Backend: C# | SGBD: postgreSQL | Controle de versão: GitHub
 
-Frontend: Angular.io, Bootstrap | Backend: C#
+Tecnologias para gerência de projeto e comunicação:
+Discord e Jira
