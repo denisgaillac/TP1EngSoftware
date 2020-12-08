@@ -1,4 +1,4 @@
-# TP1EngSoftware
+# Study Smart - Acompanhamento de Estudos
 ### Trabalho prático em grupo para disciplina de Engenharia de Software
 
 ## Autores
@@ -18,4 +18,4 @@ Tecnologias para desenvolvimento:
 Frontend: HTML5, CSS3, Angular.io e Bootstrap | Backend: C# | SGBD: postgreSQL | Controle de versão: GitHub
 
 Tecnologias para gerência de projeto e comunicação:
-Discord e Jira
+Trello e Discord
