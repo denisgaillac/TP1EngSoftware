@@ -19,3 +19,7 @@ Frontend: HTML5, CSS3, Angular.io e Bootstrap | Backend: C# | SGBD: postgreSQL |
 
 Tecnologias para gerência de projeto e comunicação:
 Trello e Discord
+
+## Link para o quadro do projeto (Gerenciamento das atividades)
+
+https://trello.com/invite/b/iu8wPZxj/baf55c7b90d5e40fd9f311ecfdccb039/gerenciamento-de-atividades
