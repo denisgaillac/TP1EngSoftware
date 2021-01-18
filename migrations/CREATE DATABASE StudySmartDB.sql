@@ -1,0 +1,4 @@
+CREATE DATABASE StudySmartDB;
+
+GRANT ALL ON DATABASE StudySmartDB TO denis;
+
