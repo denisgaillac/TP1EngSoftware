@@ -7,15 +7,18 @@ namespace StudySmart.Controllers
 {
     public class ActivitiesController : Controller
     {
-        public IActionResult Index()
+        [HttpPost]
+        public IActionResult Index() // Read 
         {
             return View();
         }
-        public void CreateActivity ()   // TODO: Criar interface e classe de objeto a manipular
+    
+        [HttpPost]
+        public JsonResult CreateActivity ()   // TODO: Criar interface e classe de objeto a manipular
         {
             try
             {
-
+                return new JsonResult("");
             }
             catch(Exception e)
             {
@@ -23,11 +26,12 @@ namespace StudySmart.Controllers
             }
         }
 
-        public void DeleteActivity ()
+        [HttpPost]
+        public JsonResult DeleteActivity ()
         {
             try
             {
-
+                return new JsonResult("");
             }
             catch (Exception e)
             {
@@ -35,11 +39,12 @@ namespace StudySmart.Controllers
             }
         }
 
-        public void UpdateActivity ()
+        [HttpPost]
+        public JsonResult UpdateActivity ()
         {
             try
             {
-
+                return new JsonResult("");
             }
             catch (Exception e)
             {
