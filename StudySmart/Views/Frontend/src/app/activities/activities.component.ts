@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss']
 })
+
 export class ActivitiesComponent implements OnInit {
 
   todo = [
@@ -27,7 +29,9 @@ export class ActivitiesComponent implements OnInit {
     'Aula 5 de ES'
   ];
 
-  constructor() { }
+  modalRef: NgbModalRef;
+
+  constructor(public modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
@@ -38,6 +42,14 @@ export class ActivitiesComponent implements OnInit {
     } else {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     }
+  }
+
+  openModal(content) {
+    this.modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
+  }
+
+  closeModal(){
+    this.modalRef.close();
   }
 
 }

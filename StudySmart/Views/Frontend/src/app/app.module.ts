@@ -7,6 +7,7 @@ import { ActivitiesComponent } from './activities/activities.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PerformanceComponent } from './performance/performance.component'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PerformanceComponent } from './performance/performance.component'
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    DragDropModule
+    DragDropModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
