@@ -6,13 +6,13 @@ import { AppComponent } from './app.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { NavbarComponent } from './navbar/navbar.component'
+import { PerformanceComponent } from './performance/performance.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     ActivitiesComponent,
-    NavbarComponent
+    PerformanceComponent
   ],
   imports: [
     BrowserModule,
