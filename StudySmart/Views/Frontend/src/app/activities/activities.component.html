@@ -5,7 +5,7 @@
     <!-- botão para cadastro de atividades -->
     <div class="row">
         <div class="col-12">
-            <button class="btn btn-dark float-right" (click)="openModal(addActivity)">
+            <button class="btn btn-dark float-right" (click)="onNewActivityClick()">
                 <span class="material-icons mr-1">add</span>
                 Adicionar atividade
             </button>
@@ -116,16 +116,52 @@
 
 <ng-template #addActivity>
     <div class="modal-header">
-        <h1>teste</h1>
-        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-            <span aria-hidden="true">&times;</span>
+        <h1 class="modal-title">Adicionar Atividade</h1>
+        <button type="button" class="close" aria-label="Close" (click)="modalService.closeModal()">
+            <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <p>Modal body text goes here.</p>
+        <form>
+            <div class="form-group">
+                <label for="activityName">Nome</label>
+                <input type="text" class="form-control" id="activityName" placeholder="Nome" name="name" [(ngModel)]="newActivity.name">
+            </div>
+            <div class="form-group">
+                <label>Dificuldade</label>
+                <br>
+                <div class="form-check form-check-inline mr-4">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="easyFlag" [value]="1" [(ngModel)]="newActivity.difficulty">
+                    <label class="form-check-label text-dark difficulty-label" for="easyFlag">
+                        <span class="material-icons text-success">
+                            bookmark
+                        </span>
+                        Fácil
+                    </label>
+                </div>
+                <div class="form-check form-check-inline mr-4">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="mediumFlag" [value]="2" [(ngModel)]="newActivity.difficulty">
+                    <label class="form-check-label text-dark difficulty-label" for="mediumFlag">
+                        <span class="material-icons text-warning">
+                            bookmark
+                        </span>
+                        Médio
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="hardFlag" [value]="3" [(ngModel)]="newActivity.difficulty">
+                    <label class="form-check-label text-dark difficulty-label" for="hardFlag">
+                        <span class="material-icons text-danger">
+                            bookmark
+                        </span>
+                        Difícil
+                    </label>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary">Close</button>
+        <button type="button" class="btn btn-dark" (click)="onSaveActivityClick()">Salvar</button>
+        <button type="button" class="btn btn-dark" (click)="modalService.closeModal()">Cancelar</button>
     </div>
 </ng-template>
