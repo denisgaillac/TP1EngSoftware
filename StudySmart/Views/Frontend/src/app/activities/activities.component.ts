@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Activity } from './../interfaces/Activity';
+import { ModalService } from './../services/modal.service';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss']
 })
 
-export class ActivitiesComponent implements OnInit {
+export class ActivitiesComponent implements OnInit, OnDestroy {
+  
+  @ViewChild('addActivity') public addActivityModal: ElementRef;
 
   todo = [
     'Prova de RNA',
@@ -29,13 +31,22 @@ export class ActivitiesComponent implements OnInit {
     'Aula 5 de ES'
   ];
 
-  modalRef: NgbModalRef;
+  newActivity: Activity = {
+    name: '',
+    difficulty: 1,
+    status: 'todo'
+  }
 
-  constructor(public modalService: NgbModal) { }
+  constructor(public modalService: ModalService) { }
 
   ngOnInit(): void {
   }
 
+  ngOnDestroy(): void {
+    this.modalService.closeModal();
+  }
+
+  //implementando lista drag and drop
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -44,12 +55,17 @@ export class ActivitiesComponent implements OnInit {
     }
   }
 
-  openModal(content) {
-    this.modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
+  onNewActivityClick(){
+    this.newActivity = {
+      name: '',
+      difficulty: 1,
+      status: 'todo'
+    }
+    this.modalService.openModal(this.addActivityModal);
   }
 
-  closeModal(){
-    this.modalRef.close();
+  onSaveActivityClick(){
+    console.log(this.newActivity);
   }
 
 }
