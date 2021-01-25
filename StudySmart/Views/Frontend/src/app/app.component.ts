@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +8,6 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'Frontend';
 
-  constructor(
-    public router: Router
-  ) {}
+  constructor() {}
 
-  navigatePerformance() {
-    this.router.navigateByUrl('/performance');
-  }
-  navigateActivities() {
-    this.router.navigateByUrl('/');
-  }
 }
