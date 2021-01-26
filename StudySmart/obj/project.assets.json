@@ -8,19 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "/home/denis/.nuget/packages/": {}
+    "/home/lucas/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/StudySmart.csproj",
+      "projectUniqueName": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj",
       "projectName": "StudySmart",
-      "projectPath": "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/StudySmart.csproj",
-      "packagesPath": "/home/denis/.nuget/packages/",
-      "outputPath": "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/obj/",
+      "projectPath": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj",
+      "packagesPath": "/home/lucas/.nuget/packages/",
+      "outputPath": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/denis/.nuget/NuGet/NuGet.Config"
+        "/home/lucas/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -61,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.102/RuntimeIdentifierGraph.json"
       }
     }
   }
