@@ -1,5 +1,5 @@
-import { Activity } from './../interfaces/Activity';
-import { ModalService } from './../services/modal.service';
+import { Activity } from '../../interfaces/Activity';
+import { ModalService } from '../../services/modal.service';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 @Component({
