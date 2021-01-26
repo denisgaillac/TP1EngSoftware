@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj": {}
+    "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/StudySmart.csproj": {}
   },
   "projects": {
-    "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj": {
+    "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/StudySmart.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj",
+        "projectUniqueName": "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/StudySmart.csproj",
         "projectName": "StudySmart",
-        "projectPath": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj",
-        "packagesPath": "/home/lucas/.nuget/packages/",
-        "outputPath": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/obj/",
+        "projectPath": "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/StudySmart.csproj",
+        "packagesPath": "/home/denis/.nuget/packages/",
+        "outputPath": "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/lucas/.nuget/NuGet/NuGet.Config"
+          "/home/denis/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -37,6 +37,12 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.4, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
