@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PerformanceComponent } from "./performance/performance.component";
-import { ActivitiesComponent } from "./activities/activities.component";
+import { PerformanceComponent } from "./components/performance/performance.component";
+import { ActivitiesComponent } from "./components/activities/activities.component";
 
 const routes: Routes = [
   {
