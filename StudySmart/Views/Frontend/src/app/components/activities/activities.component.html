@@ -31,15 +31,26 @@
                 <div class="list-item" *ngFor="let item of todo" cdkDrag>
                     <div class="row m-0 p-0 no-gutters">
                         <div class="col-9">
-                            {{item}}
+                            <p class="ml-1">{{item.name}}</p>
                         </div>
                         <div class="col-3">
                             <button class="btn btn-sm btn-danger float-right action-button">
                                 <span class="material-icons">delete</span>
                             </button>
                             <button class="btn btn-sm btn-dark float-right action-button">
-                                <span class="material-icons">edit</span>
+                                <span class="material-icons" (click)="onEditActivityClick(item)">edit</span>
                             </button>
+                        </div>
+                        <div class="col-12">
+                            <span [ngClass]="{'material-icons': true,
+                                'text-success': item.difficulty==difficultyEnum.easy,
+                                'text-warning': item.difficulty==difficultyEnum.medium,
+                                'text-danger': item.difficulty==difficultyEnum.hard}">
+                                bookmark
+                            </span>
+                            <div class="text-secondary ml-2" style="display: inline;">
+                                {{item.expirationDate | date : 'dd/MM/yyyy'}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -64,7 +75,7 @@
                 <div class="list-item" *ngFor="let item of doing" cdkDrag>
                     <div class="row m-0 p-0 no-gutters">
                         <div class="col-9">
-                            {{item}}
+                            <p class="ml-1">{{item.name}}</p>
                         </div>
                         <div class="col-3">
                             <button class="btn btn-sm btn-danger float-right action-button">
@@ -73,6 +84,17 @@
                             <button class="btn btn-sm btn-dark float-right action-button">
                                 <span class="material-icons">edit</span>
                             </button>
+                        </div>
+                        <div class="col-12">
+                            <span [ngClass]="{'material-icons': true,
+                                'text-success': item.difficulty==difficultyEnum.easy,
+                                'text-warning': item.difficulty==difficultyEnum.medium,
+                                'text-danger': item.difficulty==difficultyEnum.hard}">
+                                bookmark
+                            </span>
+                            <div class="text-secondary ml-2" style="display: inline;">
+                                {{item.expirationDate | date : 'dd/MM/yyyy'}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -95,7 +117,7 @@
                 <div class="list-item" *ngFor="let item of done" cdkDrag>
                     <div class="row m-0 p-0 no-gutters">
                         <div class="col-9">
-                            {{item}}
+                            <p class="ml-1">{{item.name}}</p>
                         </div>
                         <div class="col-3">
                             <button class="btn btn-sm btn-danger float-right action-button">
@@ -104,6 +126,17 @@
                             <button class="btn btn-sm btn-dark float-right action-button">
                                 <span class="material-icons">edit</span>
                             </button>
+                        </div>
+                        <div class="col-12">
+                            <span [ngClass]="{'material-icons': true,
+                                'text-success': item.difficulty==difficultyEnum.easy,
+                                'text-warning': item.difficulty==difficultyEnum.medium,
+                                'text-danger': item.difficulty==difficultyEnum.hard}">
+                                bookmark
+                            </span>
+                            <div class="text-secondary ml-2" style="display: inline;">
+                                {{item.expirationDate | date : 'dd/MM/yyyy'}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,37 +158,101 @@
         <form>
             <div class="form-group">
                 <label for="activityName">Nome</label>
-                <input type="text" class="form-control" id="activityName" placeholder="Nome" name="name" [(ngModel)]="newActivity.name">
+                <input type="text" class="form-control" id="activityName" placeholder="Nome" name="name" [(ngModel)]="currentActivity.name">
             </div>
             <div class="form-group">
                 <label>Dificuldade</label>
                 <br>
-                <div class="form-check form-check-inline mr-4">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="easyFlag" [value]="1" [(ngModel)]="newActivity.difficulty">
+                <div class="form-check form-check-inline m-0 p-0 col-4 justify-content-center pr-2">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="easyFlag" [value]="difficultyEnum.easy" [(ngModel)]="currentActivity.difficulty">
                     <label class="form-check-label text-dark difficulty-label" for="easyFlag">
-                        <span class="material-icons text-success">
-                            bookmark
-                        </span>
+                        <span class="material-icons text-success">bookmark</span>
                         Fácil
                     </label>
                 </div>
-                <div class="form-check form-check-inline mr-4">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="mediumFlag" [value]="2" [(ngModel)]="newActivity.difficulty">
+                <div class="form-check form-check-inline m-0 p-0 col-4 justify-content-center pr-2">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="mediumFlag" [value]="difficultyEnum.medium" [(ngModel)]="currentActivity.difficulty">
                     <label class="form-check-label text-dark difficulty-label" for="mediumFlag">
-                        <span class="material-icons text-warning">
-                            bookmark
-                        </span>
+                        <span class="material-icons text-warning">bookmark</span>
                         Médio
                     </label>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="hardFlag" [value]="3" [(ngModel)]="newActivity.difficulty">
+                <div class="form-check form-check-inline m-0 p-0 col-4 justify-content-center pr-2">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="hardFlag" [value]="difficultyEnum.hard" [(ngModel)]="currentActivity.difficulty">
                     <label class="form-check-label text-dark difficulty-label" for="hardFlag">
-                        <span class="material-icons text-danger">
-                            bookmark
-                        </span>
+                        <span class="material-icons text-danger">bookmark</span>
                         Difícil
                     </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="activityExpirationDate">Data de entrega</label>
+                <input type="text" placeholder="Escolha a data" class="form-control" bsDatepicker
+                       [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-red' }" [minDate]="minDate" name="expirationDate"
+                       [(ngModel)]="currentActivity.expirationDate"
+                />
+            </div>
+            <div *ngIf="this.formError" class="form-group">
+                <div class="alert alert-danger p-2 text-center">
+                    <b>Erro!</b> {{this.formError}}
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="onSaveActivityClick()">Salvar</button>
+        <button type="button" class="btn btn-dark" (click)="modalService.closeModal()">Cancelar</button>
+    </div>
+</ng-template>
+
+<ng-template #editActivity>
+    <div class="modal-header">
+        <h1 class="modal-title">Editar Atividade</h1>
+        <button type="button" class="close" aria-label="Close" (click)="modalService.closeModal()">
+            <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="activityName">Nome</label>
+                <input type="text" class="form-control" id="activityName" placeholder="Nome" name="name" [(ngModel)]="currentActivity.name">
+            </div>
+            <div class="form-group">
+                <label>Dificuldade</label>
+                <br>
+                <div class="form-check form-check-inline m-0 p-0 col-4 justify-content-center pr-2">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="easyFlag" [value]="difficultyEnum.easy" [(ngModel)]="currentActivity.difficulty">
+                    <label class="form-check-label text-dark difficulty-label" for="easyFlag">
+                        <span class="material-icons text-success">bookmark</span>
+                        Fácil
+                    </label>
+                </div>
+                <div class="form-check form-check-inline m-0 p-0 col-4 justify-content-center pr-2">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="mediumFlag" [value]="difficultyEnum.medium" [(ngModel)]="currentActivity.difficulty">
+                    <label class="form-check-label text-dark difficulty-label" for="mediumFlag">
+                        <span class="material-icons text-warning">bookmark</span>
+                        Médio
+                    </label>
+                </div>
+                <div class="form-check form-check-inline m-0 p-0 col-4 justify-content-center pr-2">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="hardFlag" [value]="difficultyEnum.hard" [(ngModel)]="currentActivity.difficulty">
+                    <label class="form-check-label text-dark difficulty-label" for="hardFlag">
+                        <span class="material-icons text-danger">bookmark</span>
+                        Difícil
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="activityExpirationDate">Data de entrega</label>
+                <input type="text" placeholder="Escolha a data" class="form-control" bsDatepicker
+                       [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-red' }" [minDate]="minDate" name="expirationDate"
+                       [(ngModel)]="currentActivity.expirationDate"
+                />
+            </div>
+            <div *ngIf="this.formError" class="form-group">
+                <div class="alert alert-danger p-2 text-center">
+                    <b>Erro!</b> {{this.formError}}
                 </div>
             </div>
         </form>
