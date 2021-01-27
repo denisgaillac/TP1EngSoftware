@@ -2,26 +2,28 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using StudySmart.Models.DTOs;
-using StudySmart.Models.Interfaces;
+using StudySmart.Models.BusinessRules;
 using StudySmart.Models.DTOs.Enums;
 
 namespace StudySmart.Controllers
 {
     public class ActivitiesController : Controller
     {
-        private readonly IActivityRules rules;
+        //private readonly ActivityRules rules;
+        private ActivityRules rules{get; set;}
 
-        public ActivitiesController(IActivityRules activityRules){
-            rules = activityRules;
+        public ActivitiesController(){
+           rules = new ActivityRules();
         }
 
-        [HttpPost]
-        public IActionResult Index() // Read 
-        {
-            return View();
-        }
+        // [HttpGet]
+        // public IActionResult Index() // Read 
+        // {
+        //     return View();
+        // }
 
-        public List<ActivityDTO> Filter(FilterDTO filter){
+        [HttpGet]
+        public List<ActivityDTO> Index(){
             var activity = new ActivityDTO()
             {
                 id = 1,

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/StudySmart.csproj": {}
+    "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj": {}
   },
   "projects": {
-    "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/StudySmart.csproj": {
+    "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/StudySmart.csproj",
+        "projectUniqueName": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj",
         "projectName": "StudySmart",
-        "projectPath": "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/StudySmart.csproj",
-        "packagesPath": "/home/denis/.nuget/packages/",
-        "outputPath": "/home/denis/Documentos/UFMG/Materias/2020-2/Engenharia de Software/TP1EngSoftware/StudySmart/obj/",
+        "projectPath": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj",
+        "packagesPath": "/home/lucas/.nuget/packages/",
+        "outputPath": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/denis/.nuget/NuGet/NuGet.Config"
+          "/home/lucas/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -41,6 +41,18 @@
             "EntityFramework": {
               "target": "Package",
               "version": "[6.4.4, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[5.0.2, )"
             }
           },
           "imports": [
