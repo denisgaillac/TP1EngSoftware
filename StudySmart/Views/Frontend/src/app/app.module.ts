@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -36,7 +37,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     FormsModule,
     NgxEchartsModule,
     BsDatepickerModule.forRoot(),
-
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
