@@ -10,6 +10,18 @@ import * as echarts from 'echarts';
 })
 export class PerformanceComponent implements OnInit {
 
+  //
+  ranges: any = [
+    {
+      value: [new Date(new Date().setDate(new Date().getDate() - 7)), new Date()], 
+      label: 'Last 7 Days'
+    }, 
+    {
+      value: [new Date(), new Date(new Date().setDate(new Date().getDate() + 7))],
+      label: 'Next 7 Days'
+    }
+  ];
+
   //Construção do gráfico de Progresso
   optionsProgress = {
     title: { text: 'Progresso' },
