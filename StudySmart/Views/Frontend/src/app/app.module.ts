@@ -14,6 +14,9 @@ import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
+
 
 @NgModule({
   declarations: [
@@ -32,6 +35,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     MatListModule,
     FormsModule,
     NgxEchartsModule,
+    BsDatepickerModule.forRoot(),
 
   ],
   providers: [],
