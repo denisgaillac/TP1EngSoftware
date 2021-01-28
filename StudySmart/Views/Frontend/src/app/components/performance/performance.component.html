@@ -2,8 +2,8 @@
     <h1 class="screen-title text-dark">Acompanhamento de desempenho</h1>
 
 
-    <div class="form-group dateContainer mt-0 mb-3">
-        <input type="text" placeholder="Intervalo: dd/mm - dd/mm" class="form-control date" bsDaterangepicker 
+    <div class="form-group dateContainer mt-0 mb-4" style="padding: auto 30% auto 30%;">
+        <input type="text" placeholder="Escolha o intervalo (dd/mm - dd/mm)" class="form-control date" bsDaterangepicker 
         placement="bottom" (bsValueChange)="dateFilter($event)"
         container = "div"
         [bsConfig]="{ 

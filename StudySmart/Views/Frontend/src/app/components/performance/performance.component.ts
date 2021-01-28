@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { PerformanceService } from '../../services/performance.service';
 import { EChartOption } from 'echarts';
 import * as echarts from 'echarts';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-performance',
@@ -42,8 +46,11 @@ export class PerformanceComponent implements OnInit {
   dataYield: any[] = [];
 
   constructor(
+    public localeService: BsLocaleService,
     public performanceService: PerformanceService
-  ) { }
+  ) {
+    this.localeService.use('pt-br');
+   }
 
   async ngOnInit() {
     this.dataProgress = await this.performanceService.getProgress();
