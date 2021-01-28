@@ -10,21 +10,9 @@ import * as echarts from 'echarts';
 })
 export class PerformanceComponent implements OnInit {
 
-  //
-  ranges: any = [
-    {
-      value: [new Date(new Date().setDate(new Date().getDate() - 7)), new Date()], 
-      label: 'Last 7 Days'
-    }, 
-    {
-      value: [new Date(), new Date(new Date().setDate(new Date().getDate() + 7))],
-      label: 'Next 7 Days'
-    }
-  ];
-
   //Construção do gráfico de Progresso
   optionsProgress = {
-    title: { text: 'Progresso' },
+    //title: { text: 'Progresso' },
     legend: { data: ['Progresso Ideal', 'Progresso Real'] },
     tooltip: { trigger: 'axis' },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
@@ -38,7 +26,7 @@ export class PerformanceComponent implements OnInit {
 
   //Construção do gráfico de Produtividade
   optionsYield = {
-    title: { text: 'Produtividade' },
+    //title: { text: 'Produtividade' },
     legend: { data: ['Taxa de Produtividade'] },
     tooltip: { trigger: 'axis' },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
@@ -50,23 +38,38 @@ export class PerformanceComponent implements OnInit {
   };
 
   //Variáveis globais
-  dataChart: any[];
+  dataProgress: any[] = [];
+  dataYield: any[] = [];
 
   constructor(
     public performanceService: PerformanceService
   ) { }
 
-  ngOnInit(): void {
-    this.dataChart = this.performanceService.getData();
-    this.dataChart.forEach(dt => {
-      this.optionsProgress.xAxis.data.push(dt.day);
-      this.optionsProgress.series[0].data.push(dt.idealValue);
-      this.optionsProgress.series[1].data.push(dt.realValue);
-
-      //Temporário
-      this.optionsYield.xAxis.data.push(dt.day);
-      this.optionsYield.series[0].data.push(dt.idealValue);
+  async ngOnInit() {
+    this.dataProgress = await this.performanceService.getProgress();
+    this.dataYield = this.getYield(this.dataProgress);
+    this.dataProgress.forEach(data => {
+      this.optionsProgress.xAxis.data.push(data.day);
+      this.optionsProgress.series[0].data.push(data.idealValue);
+      this.optionsProgress.series[1].data.push(data.realValue);
     });
+    this.dataYield.forEach(data => {
+      this.optionsYield.xAxis.data.push(data.day);
+      this.optionsYield.series[0].data.push(data.value);
+    })
   }
 
+  dateFilter(event) {
+    console.log(event);
+    let date: Date = new Date(event[0]);
+    console.log(typeof date);
+  }
+
+  getYield(progress) {
+    let dataYiels: any[] = [];
+    for (let i = 1; i < progress.length; i++) {
+      dataYiels.push({day: progress[i].day, value: progress[i-1].idealValue - progress[i].idealValue})
+    }
+    return dataYiels;
+  }
 }

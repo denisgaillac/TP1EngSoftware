@@ -2,13 +2,17 @@
     <h1 class="screen-title text-dark">Acompanhamento de desempenho</h1>
 
 
-    <div class="col-xs-12 col-12 col-md-4 form-group">
-        <input type="text"
-               placeholder="Daterangepicker"
-               class="form-control"
-               bsDaterangepicker>
-      </div>
-
+    <div class="form-group dateContainer mt-0 mb-3">
+        <input type="text" placeholder="Intervalo: dd/mm - dd/mm" class="form-control date" bsDaterangepicker 
+        placement="bottom" (bsValueChange)="dateFilter($event)"
+        container = "div"
+        [bsConfig]="{ 
+            containerClass: 'theme-red', 
+            showTodayButton: true, 
+            todayPosition: 'center', 
+            adaptivePosition: true 
+        }">
+    </div>
 
     <div class="row">
         <div class="col-6">
