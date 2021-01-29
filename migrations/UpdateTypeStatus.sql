@@ -1,0 +1,1 @@
+ALTER TABLE public.activities ALTER COLUMN status_activity TYPE int4 USING status_activity::int4;

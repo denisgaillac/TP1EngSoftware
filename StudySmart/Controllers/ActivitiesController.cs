@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using StudySmart.Models.DTOs;
 using StudySmart.Models.BusinessRules;
+using StudySmart.Models.Data;
 using StudySmart.Models.DTOs.Enums;
+using Microsoft.AspNetCore.Cors;
 
 namespace StudySmart.Controllers
 {
-    public class ActivitiesController : Controller
+    [Route("api/[Controller]")]
+    [ApiController]
+    public class ActivitiesController : ControllerBase
     {
-        //private readonly ActivityRules rules;
-        private ActivityRules rules{get; set;}
+        private readonly Context context;
+        private readonly ActivityRules _rules;
 
-        public ActivitiesController(){
-           rules = new ActivityRules();
+        public ActivitiesController(Context ContextDB){
+            context = ContextDB;
+           _rules = new ActivityRules(context);
         }
 
         // [HttpGet]
@@ -21,9 +26,8 @@ namespace StudySmart.Controllers
         // {
         //     return View();
         // }
-
         [HttpGet]
-        public List<ActivityDTO> Index(){
+        public IActionResult Index(){
             var activity = new ActivityDTO()
             {
                 id = 1,
@@ -33,7 +37,7 @@ namespace StudySmart.Controllers
             };
             var listOfActivities = new List<ActivityDTO>();
             listOfActivities.Add(activity);
-            return listOfActivities;
+            return Ok(listOfActivities);
         }
 
         [HttpPost]
@@ -41,7 +45,7 @@ namespace StudySmart.Controllers
         {
             try
             {
-                return rules.CreateActivity(activityToCreate);
+                return _rules.CreateActivity(activityToCreate);
             }
             catch(Exception e)
             {
@@ -54,7 +58,7 @@ namespace StudySmart.Controllers
         {
             try
             {
-                return rules.DeleteActivity(idToDelete);
+                return _rules.DeleteActivity(idToDelete);
             }
             catch (Exception e)
             {
@@ -67,7 +71,7 @@ namespace StudySmart.Controllers
         {
             try
             {
-                return rules.UpdateActivity(activityToUpdate);
+                return _rules.UpdateActivity(activityToUpdate);
             }
             catch (Exception e)
             {

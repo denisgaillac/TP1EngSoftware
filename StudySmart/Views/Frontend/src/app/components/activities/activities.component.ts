@@ -1,3 +1,4 @@
+import { LoadingService } from './../../services/loading.service';
 import { ActivitiesService } from './../../services/activities.service';
 import { Activity, Difficulty, DoneStatus } from '../../interfaces/Activity';
 import { ModalService } from '../../services/modal.service';
@@ -99,15 +100,15 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   constructor(
     public modalService: ModalService,
     public localeService: BsLocaleService,
-    private activitiesService: ActivitiesService
+    private activitiesService: ActivitiesService,
+    private loadingService: LoadingService
   ){
     this.localeService.use('pt-br');
     this.minDate = new Date();
   }
 
   async ngOnInit(): Promise<void> {
-    let activitiesList: Activity[] = await this.activitiesService.getAll();
-    console.log(activitiesList);
+
   }
 
   ngOnDestroy(): void {
@@ -159,7 +160,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     this.modalService.openModal(this.editActivityModal);
   }
 
-  onSaveActivityClick(){
+  onSaveNewActivityClick(){
     console.log(this.currentActivity);
     let err: boolean = false;
     if(!this.currentActivity.name || this.currentActivity.name == ""){
@@ -170,16 +171,59 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       console.log('Valor inválido no campo "Data de entrega"');
       err = true;
     }
+
     if(err){
       this.formError = "Preencha todos os campos do formulário para salvar";
     } else {
       this.formError = null;
-      this.saveActivity();
+      this.modalService.closeModal();
+      this.saveNewActivity();
     }
   }
 
-  saveActivity(){
+  async saveNewActivity(){
+
+    try{
+      
+    }
+    catch (err){
+
+    }
+    finally{
+
+    }
+
     console.log('salvando...');
+  }
+
+  onSaveEditedActivityClick(){
+    console.log(this.currentActivity);
+    let err: boolean = false;
+    if(!this.currentActivity.name || this.currentActivity.name == ""){
+      console.log('Valor inválido no campo "Nome"');
+      err = true;
+    }
+    if(!this.currentActivity.expirationDate || this.currentActivity.expirationDate.toDateString() == new Date(undefined).toDateString()){
+      console.log('Valor inválido no campo "Data de entrega"');
+      err = true;
+    }
+    if(this.currentActivity.doneStatus == DoneStatus.done){
+      if(!this.currentActivity.conclusionDate || this.currentActivity.conclusionDate.toDateString() == new Date(undefined).toDateString()){
+        console.log('Valor inválido no campo "Data de conclusão"');
+        err = true;
+      }
+    }
+
+    if(err){
+      this.formError = "Preencha todos os campos do formulário para salvar";
+    } else {
+      this.formError = null;
+      this.saveEditedActivity();
+    }
+  }
+
+  saveEditedActivity(){
+    console.log('...salvando');
   }
 
 }

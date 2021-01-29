@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj": {}
+    "C:\\Users\\Acer\\Documents\\UFMG\\eng-software\\TP1\\TP1EngSoftware\\StudySmart\\StudySmart.csproj": {}
   },
   "projects": {
-    "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj": {
+    "C:\\Users\\Acer\\Documents\\UFMG\\eng-software\\TP1\\TP1EngSoftware\\StudySmart\\StudySmart.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj",
+        "projectUniqueName": "C:\\Users\\Acer\\Documents\\UFMG\\eng-software\\TP1\\TP1EngSoftware\\StudySmart\\StudySmart.csproj",
         "projectName": "StudySmart",
-        "projectPath": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj",
-        "packagesPath": "/home/lucas/.nuget/packages/",
-        "outputPath": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/obj/",
+        "projectPath": "C:\\Users\\Acer\\Documents\\UFMG\\eng-software\\TP1\\TP1EngSoftware\\StudySmart\\StudySmart.csproj",
+        "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Acer\\Documents\\UFMG\\eng-software\\TP1\\TP1EngSoftware\\StudySmart\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/lucas/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -41,6 +41,10 @@
             "EntityFramework": {
               "target": "Package",
               "version": "[6.4.4, )"
+            },
+            "Microsoft.AspNetCore.Cors": {
+              "target": "Package",
+              "version": "[2.2.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -73,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.102/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

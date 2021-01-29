@@ -1,13 +1,13 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using System;
+using System.Collections.Generic;
+using StudySmart.Models.DataEntities;
 
 namespace StudySmart.Models.DataEntities
 {
-    [Table("CLASSES")]
     public class Classes
     {
-        [Column("ID_CLASS")]
-        public int Id {get; set; }
-        [Column("CLASS_NAME")]
+        public int IdClass {get; set; }
         public string ClassName{ get; set; }
+        public List<Activities> ClassActivities {get; set;}
     }
 }
