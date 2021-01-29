@@ -192,7 +192,7 @@
                        [(ngModel)]="currentActivity.expirationDate"
                 />
             </div>
-            <div *ngIf="this.formError" class="form-group">
+            <div *ngIf="this.formError" class="form-group mb-0">
                 <div class="alert alert-danger p-2 text-center">
                     <b>Erro!</b> {{this.formError}}
                 </div>
@@ -200,7 +200,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-dark" (click)="onSaveActivityClick()">Salvar</button>
+        <button type="button" class="btn btn-dark" (click)="onSaveNewActivityClick()">Salvar</button>
         <button type="button" class="btn btn-dark" (click)="modalService.closeModal()">Cancelar</button>
     </div>
 </ng-template>
@@ -221,22 +221,22 @@
             <div class="form-group">
                 <label>Dificuldade</label>
                 <br>
-                <div class="form-check form-check-inline m-0 p-0 col-4 justify-content-center pr-2">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="easyFlag" [value]="difficultyEnum.easy" [(ngModel)]="currentActivity.difficulty">
+                <div class="form-check form-check-inline m-0 p-0 col-4 pl-3 pr-2">
+                    <input class="form-check-input" type="radio" name="difficultyOptions" id="easyFlag" [value]="difficultyEnum.easy" [(ngModel)]="currentActivity.difficulty">
                     <label class="form-check-label text-dark difficulty-label" for="easyFlag">
                         <span class="material-icons text-success">bookmark</span>
                         Fácil
                     </label>
                 </div>
-                <div class="form-check form-check-inline m-0 p-0 col-4 justify-content-center pr-2">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="mediumFlag" [value]="difficultyEnum.medium" [(ngModel)]="currentActivity.difficulty">
+                <div class="form-check form-check-inline m-0 p-0 col-4 pl-3 pr-2">
+                    <input class="form-check-input" type="radio" name="difficultyOptions" id="mediumFlag" [value]="difficultyEnum.medium" [(ngModel)]="currentActivity.difficulty">
                     <label class="form-check-label text-dark difficulty-label" for="mediumFlag">
                         <span class="material-icons text-warning">bookmark</span>
                         Médio
                     </label>
                 </div>
-                <div class="form-check form-check-inline m-0 p-0 col-4 justify-content-center pr-2">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="hardFlag" [value]="difficultyEnum.hard" [(ngModel)]="currentActivity.difficulty">
+                <div class="form-check form-check-inline m-0 p-0 col-4 pl-3 pr-2">
+                    <input class="form-check-input" type="radio" name="difficultyOptions" id="hardFlag" [value]="difficultyEnum.hard" [(ngModel)]="currentActivity.difficulty">
                     <label class="form-check-label text-dark difficulty-label" for="hardFlag">
                         <span class="material-icons text-danger">bookmark</span>
                         Difícil
@@ -244,13 +244,68 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="activityExpirationDate">Data de entrega</label>
-                <input type="text" placeholder="Escolha a data" class="form-control" bsDatepicker
-                       [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-red' }" [minDate]="minDate" name="expirationDate"
-                       [(ngModel)]="currentActivity.expirationDate"
-                />
+                <label>Progresso</label>
+                <br>
+                <div class="form-check form-check-inline m-0 p-0 col-4 pl-3 pr-2">
+                    <input class="form-check-input" type="radio" name="doneStatusOptions" id="todoFlag" [value]="doneStatusEnum.todo" [(ngModel)]="currentActivity.doneStatus">
+                    <label class="form-check-label text-dark difficulty-label" for="todoFlag">
+                        <span class="material-icons">hourglass_empty</span>
+                        A fazer
+                    </label>
+                </div>
+                <div class="form-check form-check-inline m-0 p-0 col-4 pl-3 pr-2">
+                    <input class="form-check-input" type="radio" name="doneStatusOptions" id="doingFlag" [value]="doneStatusEnum.doing" [(ngModel)]="currentActivity.doneStatus">
+                    <label class="form-check-label text-dark difficulty-label" for="doingFlag">
+                        <span class="material-icons">hourglass_bottom</span>
+                        Fazendo...
+                    </label>
+                </div>
+                <div class="form-check form-check-inline m-0 p-0 col-4 pl-3 pr-2">
+                    <input class="form-check-input" type="radio" name="doneStatusOptions" id="doneFlag" [value]="doneStatusEnum.done" [(ngModel)]="currentActivity.doneStatus">
+                    <label class="form-check-label text-dark difficulty-label" for="doneFlag">
+                        <span class="material-icons">hourglass_full</span>
+                        Feito!
+                    </label>
+                </div>
             </div>
-            <div *ngIf="this.formError" class="form-group">
+            <div class="form-group">
+                <div class="row m-0 p-0 no-gutters">
+                    <div class="col-6 m-0 p-0 pr-3">
+                        <label for="activityExpirationDate">Data de entrega</label>
+                        <input type="text" placeholder="Escolha a data" class="form-control" bsDatepicker
+                            [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-red' }" name="expirationDate"
+                            [(ngModel)]="currentActivity.expirationDate"
+                        />
+                    </div>
+                    <div class="col-6 m-0 p-0 pl-3">
+                        <label for="activityConclusionDate">Data de conclusão</label>
+                        <input type="text" [placeholder]="'Escolha a data'" class="form-control" bsDatepicker
+                            [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-red' }" name="conclusionDate"
+                            [(ngModel)]="currentActivity.conclusionDate"
+                            *ngIf="currentActivity.doneStatus == doneStatusEnum.done"
+                        />
+                        <input *ngIf="currentActivity.doneStatus != doneStatusEnum.done" class="form-control" disabled placeholder="Atividade não concluída"/>
+                        <div *ngIf="currentActivity.expirationDate" class="p-1 mt-0.5 text-left" style="width: 100%; margin-bottom: -20px;">
+                            <small *ngIf="currentActivity.doneStatus == doneStatusEnum.done
+                                && currentActivity.conclusionDate && (currentActivity.expirationDate - currentActivity.conclusionDate) >= 0"
+                                class="text-success">
+                                    Atividade entregue no prazo
+                            </small>
+                            <small *ngIf="currentActivity.doneStatus == doneStatusEnum.done
+                                && currentActivity.conclusionDate && (currentActivity.expirationDate - currentActivity.conclusionDate) < 0"
+                                class="text-danger">
+                                    Atividade entregue com atraso
+                            </small>
+                            <small *ngIf="currentActivity.doneStatus != doneStatusEnum.done
+                                && currentActivity.expirationDate < minDate"
+                                class="text-danger">
+                                    Atividade atrasada
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="formError" class="form-group mb-0">
                 <div class="alert alert-danger p-2 text-center">
                     <b>Erro!</b> {{this.formError}}
                 </div>
@@ -258,7 +313,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-dark" (click)="onSaveActivityClick()">Salvar</button>
+        <button type="button" class="btn btn-dark" (click)="onSaveEditedActivityClick()">Salvar</button>
         <button type="button" class="btn btn-dark" (click)="modalService.closeModal()">Cancelar</button>
     </div>
 </ng-template>
