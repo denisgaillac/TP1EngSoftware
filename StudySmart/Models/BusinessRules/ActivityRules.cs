@@ -10,12 +10,11 @@ namespace StudySmart.Models.BusinessRules
 {
     public class ActivityRules : IActivityRules
     {
-        public ActivityRules(Context context) 
+        private readonly Context context;
+        public ActivityRules(Context contextDB) 
         {
-            this.context = context;
-               
+            context = contextDB;
         }
-        private Context context { get; set; }
 
         // public ActivityRules(Context contextDB){
         //     context = contextDB;
