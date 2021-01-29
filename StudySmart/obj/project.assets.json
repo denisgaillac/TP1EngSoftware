@@ -1917,19 +1917,19 @@
     ]
   },
   "packageFolders": {
-    "/home/lucas/.nuget/packages/": {}
+    "C:\\Users\\Acer\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj",
+      "projectUniqueName": "C:\\Users\\Acer\\Documents\\UFMG\\eng-software\\TP1\\TP1EngSoftware\\StudySmart\\StudySmart.csproj",
       "projectName": "StudySmart",
-      "projectPath": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/StudySmart.csproj",
-      "packagesPath": "/home/lucas/.nuget/packages/",
-      "outputPath": "/home/lucas/Documentos/EngSoft/TP1EngSoftware/StudySmart/obj/",
+      "projectPath": "C:\\Users\\Acer\\Documents\\UFMG\\eng-software\\TP1\\TP1EngSoftware\\StudySmart\\StudySmart.csproj",
+      "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Acer\\Documents\\UFMG\\eng-software\\TP1\\TP1EngSoftware\\StudySmart\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/lucas/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -1992,8 +1992,16 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.102/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problema ao ler o arquivo de cache C:\\Users\\Acer\\Documents\\UFMG\\eng-software\\TP1\\TP1EngSoftware\\StudySmart\\obj\\project.nuget.cache: Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
