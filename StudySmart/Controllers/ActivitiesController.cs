@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudySmart.Models.DTOs;
 using StudySmart.Models.BusinessRules;
 using StudySmart.Models.DTOs.Enums;
+using Microsoft.AspNetCore.Cors;
 
 namespace StudySmart.Controllers
 {
@@ -21,9 +22,8 @@ namespace StudySmart.Controllers
         // {
         //     return View();
         // }
-
         [HttpGet]
-        public List<ActivityDTO> Index(){
+        public IActionResult Index(){
             var activity = new ActivityDTO()
             {
                 id = 1,
@@ -33,7 +33,7 @@ namespace StudySmart.Controllers
             };
             var listOfActivities = new List<ActivityDTO>();
             listOfActivities.Add(activity);
-            return listOfActivities;
+            return Ok(listOfActivities);
         }
 
         [HttpPost]
