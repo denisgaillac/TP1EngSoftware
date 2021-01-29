@@ -1,0 +1,1 @@
+ALTER TABLE public.activities RENAME COLUMN conclusion_date TO conclusion_date;

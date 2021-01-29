@@ -36,10 +36,9 @@ namespace StudySmart
                     //.SetIsOriginAllowedToAllowWildcardSubdomains();
                 });
             });
-
-            var connection = Configuration["ConnectionStrings:PostgreSqlConnectionString"];
+            
             services.AddDbContext<Context>(options =>
-            options.UseNpgsql(Configuration.GetConnectionString(connection)));
+            options.UseNpgsql(Configuration.GetConnectionString("PostgreSqlConnectionString")));
             services.AddMvc();
             //services.AddControllersWithViews();
         }
