@@ -11,7 +11,7 @@ namespace StudySmart.Models.DTOs
         public DoneStatusEnum doneStatus {get; set; }
         public bool? conclusionStatus {get; set; }
         public DateTime expirationDate {get; set; }
-        public DateTime conclusionDate {get; set; }
+        public DateTime? conclusionDate {get; set; }
         public int idClass { get; set; }
 
         public ClassDTO classOfActivity {get; set; }

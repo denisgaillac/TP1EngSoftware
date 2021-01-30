@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using StudySmart.Models.Data;
+using StudySmart.Models.BusinessRules;
+using StudySmart.Models.Interfaces;
+
 
 namespace StudySmart
 {
@@ -40,6 +43,12 @@ namespace StudySmart
             services.AddDbContext<Context>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("PostgreSqlConnectionString")));
             services.AddMvc();
+            #region Business Rules
+
+            services.AddScoped<IActivityRules, ActivityRules>();
+            //services.AddScoped<IClassRules, ClassRules>();
+
+            #endregion
             //services.AddControllersWithViews();
         }
 

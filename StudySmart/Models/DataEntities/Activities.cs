@@ -13,7 +13,7 @@ namespace StudySmart.Models.DataEntities
         public DoneStatusEnum statusActivity {get; set; }
         public bool? StatusConclusionDate {get; set; }
         public DateTime ExpirationDate {get; set; }
-        public DateTime ConclusionDate {get; set; }
+        public DateTime? ConclusionDate {get; set; }
         public int IdClass { get; set; }
         public Classes Class {get; set; }
         

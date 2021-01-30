@@ -2,62 +2,53 @@ using System;
 using StudySmart.Models.DTOs;
 using StudySmart.Models.DataEntities;
 using StudySmart.Models.Interfaces;
+using StudySmart.Models.DataAccess;
 using StudySmart.Models.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace StudySmart.Models.BusinessRules
 {
     public class ActivityRules : IActivityRules
     {
-        private readonly Context context;
+        private ActivityDataAccess DataAccess;
         public ActivityRules(Context contextDB) 
         {
-            context = contextDB;
+            DataAccess = new ActivityDataAccess(contextDB);
         }
-
-        public List<ActivityDTO> FilterActivities()
+        public List<ActivityDTO> GetActivities()
         {
-            var activities = context.ActivitiesDB.Select(x => new ActivityDTO{
-                id = x.IdActivity,
-                name = x.NameActivity,
-                difficulty = x.Difficulty,
-                doneStatus = x.statusActivity,
-                conclusionStatus = x.StatusConclusionDate,
-                conclusionDate = x.ConclusionDate,
-                expirationDate = x.ExpirationDate,
-                idClass = x.IdClass
-            }).ToList();
-            return activities;
+            return DataAccess.GetActivities();
         }
-        public JsonResult CreateActivity(ActivityDTO activityToCreate)
+        public List<ActivityDTO> FilterActivities(FilterDTO filter)
+        {
+            return new List<ActivityDTO>();
+        }
+        public ActivityDTO CreateActivity(ActivityDTO activityToCreate)
         {
             try
             {
-                var activity = new Activities(){
-                    NameActivity = activityToCreate.name,
-                    Difficulty = activityToCreate.difficulty,
-                    statusActivity = activityToCreate.doneStatus,
-                    StatusConclusionDate = activityToCreate.conclusionStatus,
-                    ExpirationDate = activityToCreate.expirationDate,
-                    ConclusionDate = activityToCreate.conclusionDate,
-                    IdClass = activityToCreate.idClass,
-                };
-                context.ActivitiesDB.Add(activity);
-                context.SaveChanges();
+                return DataAccess.CreateActivity(activityToCreate);
             }
             catch(Exception e)
             {
                 throw new Exception(e.Message);
             }
-            return new JsonResult("Sucesso!!");
         }
-        public JsonResult UpdateActivity(ActivityDTO activityToUpdate){
-            return new JsonResult("");
+        public ActivityDTO UpdateActivity(ActivityDTO activityToUpdate)
+        {
+            try
+            {
+                return DataAccess.UpdateActivity(activityToUpdate);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
-        public JsonResult DeleteActivity(int idToDelete){
-            return new JsonResult("");
+        public JsonResult DeleteActivity(int idToDelete)
+        {
+            return new JsonResult(DataAccess.DeleteActivity(idToDelete));
         }
     }
 }
