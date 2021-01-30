@@ -5,6 +5,7 @@ using StudySmart.Models.Interfaces;
 using StudySmart.Models.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StudySmart.Models.BusinessRules
 {
@@ -16,13 +17,19 @@ namespace StudySmart.Models.BusinessRules
             context = contextDB;
         }
 
-        // public ActivityRules(Context contextDB){
-        //     context = contextDB;
-        // }
-        public List<ActivityDTO> FilterActivities(FilterDTO filter)
+        public List<ActivityDTO> FilterActivities()
         {
-            return new List<ActivityDTO>();
-            //return ActivityDataAccess;
+            var activities = context.ActivitiesDB.Select(x => new ActivityDTO{
+                id = x.IdActivity,
+                name = x.NameActivity,
+                difficulty = x.Difficulty,
+                doneStatus = x.statusActivity,
+                conclusionStatus = x.StatusConclusionDate,
+                conclusionDate = x.ConclusionDate,
+                expirationDate = x.ExpirationDate,
+                idClass = x.IdClass
+            }).ToList();
+            return activities;
         }
         public JsonResult CreateActivity(ActivityDTO activityToCreate)
         {
@@ -35,7 +42,7 @@ namespace StudySmart.Models.BusinessRules
                     StatusConclusionDate = activityToCreate.conclusionStatus,
                     ExpirationDate = activityToCreate.expirationDate,
                     ConclusionDate = activityToCreate.conclusionDate,
-                    IdClass = 1
+                    IdClass = activityToCreate.idClass,
                 };
                 context.ActivitiesDB.Add(activity);
                 context.SaveChanges();
