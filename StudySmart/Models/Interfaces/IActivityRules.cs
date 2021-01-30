@@ -1,13 +1,15 @@
 using StudySmart.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Collections.Generic;
 
 namespace StudySmart.Models.Interfaces
 {
     public interface IActivityRules
     {
+        ActivityDTO CreateActivity(ActivityDTO activity);
+        ActivityDTO UpdateActivity (ActivityDTO activity);
         JsonResult DeleteActivity(int id);
-        JsonResult CreateActivity(ActivityDTO activity);
-        JsonResult UpdateActivity (ActivityDTO activity);
+        List<ActivityDTO> GetActivities();
+        List<ActivityDTO> FilterActivities(FilterDTO filter);
     }
 }
