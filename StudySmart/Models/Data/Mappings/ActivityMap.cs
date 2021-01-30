@@ -26,7 +26,7 @@ namespace StudySmart.Models.Data.Mappings
             .IsRequired(false);
             builder.Property(t => t.ConclusionDate)
             .HasColumnName("conclusion_date")
-            .IsRequired();
+            .IsRequired(false);
             builder.Property(t => t.ExpirationDate)
             .HasColumnName("expiration_date")
             .IsRequired();

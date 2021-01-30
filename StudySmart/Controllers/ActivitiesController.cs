@@ -24,11 +24,11 @@ namespace StudySmart.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok(_rules.FilterActivities());
+            return Ok(_rules.GetActivities());
         }
 
         [HttpPost("[Action]")]
-        public IActionResult CreateActivity ([FromBody] ActivityDTO activityToCreate) 
+        public IActionResult CreateActivity ([FromBody] ActivityDTO activityToCreate)
         {
             try
             {
@@ -36,33 +36,33 @@ namespace StudySmart.Controllers
             }
             catch(Exception e)
             {
-                throw new Exception(e.Message);
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpPost]
-        public JsonResult DeleteActivity (int idToDelete)
+        [HttpDelete("[Action]/{idToDelete}")]
+        public IActionResult DeleteActivity (int idToDelete)
         {
             try
             {
-                return _rules.DeleteActivity(idToDelete);
+                return Ok(_rules.DeleteActivity(idToDelete));
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpPost]
-        public JsonResult UpdateActivity (ActivityDTO activityToUpdate)
+        [HttpPatch("[Action]")]
+        public IActionResult UpdateActivity (ActivityDTO activityToUpdate)
         {
             try
             {
-                return _rules.UpdateActivity(activityToUpdate);
+                return Ok(_rules.UpdateActivity(activityToUpdate));
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                return BadRequest(e.Message);
             }
         }
     }
