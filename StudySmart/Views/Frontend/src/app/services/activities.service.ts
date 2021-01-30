@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 })
 export class ActivitiesService {
 
-  baseRoute: string = "https://localhost:5001/";
+  baseRoute: string = "https://localhost:5001/api/";
 
   constructor(
     private httpClient: HttpClient

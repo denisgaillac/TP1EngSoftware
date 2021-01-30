@@ -21,31 +21,18 @@ namespace StudySmart.Controllers
            _rules = new ActivityRules(context);
         }
 
-        // [HttpGet]
-        // public IActionResult Index() // Read 
-        // {
-        //     return View();
-        // }
         [HttpGet]
-        public IActionResult Index(){
-            var activity = new ActivityDTO()
-            {
-                id = 1,
-                name = "Teste",
-                difficulty = DifficultyEnum.Easy,
-
-            };
-            var listOfActivities = new List<ActivityDTO>();
-            listOfActivities.Add(activity);
-            return Ok(listOfActivities);
+        public IActionResult Index()
+        {
+            return Ok(_rules.FilterActivities());
         }
 
-        [HttpPost]
-        public JsonResult CreateActivity (ActivityDTO activityToCreate)   // TODO: Criar interface e classe de objeto a manipular
+        [HttpPost("[Action]")]
+        public IActionResult CreateActivity ([FromBody] ActivityDTO activityToCreate) 
         {
             try
             {
-                return _rules.CreateActivity(activityToCreate);
+                return Ok(_rules.CreateActivity(activityToCreate));
             }
             catch(Exception e)
             {
