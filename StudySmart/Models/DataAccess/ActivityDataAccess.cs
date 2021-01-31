@@ -14,9 +14,28 @@ namespace StudySmart.Models.DataAccess
         {
             context = contextDB;
         }
-        public List<ActivityDTO> Filter(FilterDTO filter)
-        {
-            return new List<ActivityDTO>();
+        public List<ActivityDTO> Filter(FilterPerformanceDTO filter)
+        {  
+            var query = context.ActivitiesDB
+            .Where(x => x.ExpirationDate.Date >= filter.initialDate.Date 
+                && x.ExpirationDate.Date <= filter.finalDate.Date);
+            
+            if(filter.idClass != null)
+            {
+                query.Where(x => x.IdClass == filter.idClass);
+            }
+
+            return query.Select(x => 
+                new ActivityDTO(){
+                    id = x.IdActivity,
+                    name = x.NameActivity,
+                    difficulty = x.Difficulty,
+                    doneStatus = x.statusActivity,
+                    conclusionStatus = x.StatusConclusionDate,
+                    conclusionDate = x.ConclusionDate,
+                    expirationDate = x.ExpirationDate,
+                    idClass = x.IdClass
+                }).ToList();
         }
         public List<ActivityDTO> GetActivities()
         {
