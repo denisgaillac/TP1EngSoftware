@@ -19,43 +19,45 @@ namespace StudySmart.Models.BusinessRules
             DataAccess = new ActivityDataAccess(contextDB);
         }
 
-        private int calculatePoints(List<ActivityDTO> activities)
+        private int GetPointsByDay(List<ActivityDTO> activities)
         {
-            int points = 0;
-            foreach (var activity in activities)
-            {
-                int activityPoints = (int) activity.difficulty + 1;
-                points = points + activityPoints;
-            }
-            return points;
+            //int points = 0;
+            return activities.Sum(a=> ((int)a.difficulty+1));
+            // foreach (var activity in activities)
+            // {
+            //     int activityPoints = (int) activity.difficulty + 1;
+            //     points = points + activityPoints;
+            // }
+            // return points;
         }
 
-        public List<PerformanceDTO> Filter(FilterDTO filter)
+        public List<PerformanceDTO> Filter(FilterPerformanceDTO filter)
         {
             List<ActivityDTO> activities = DataAccess.Filter(filter);
 
-            var performance = new List<PerformanceDTO>();
+            var performanceList = new List<PerformanceDTO>();
 
-            var currentDate = initialDate;
-            while(currentDate < finalDate)
+            var dayAvailable = filter.initialDate;
+            while(dayAvailable < filter.finalDate)
             {
-                var idealConcludedActivities = activities.Where(act => act.expirationDate == currentDate).ToList();
-                var idealValue = calculatePoints(idealConcludedActivities);
+                var idealConcludedActivities = activities
+                .Where(a => a.expirationDate.Date == dayAvailable.Date).ToList();
 
-                var realConcludedActivities = activities.Where(act => act.conclusionDate == currentDate).ToList();
-                var realValue = calculatePoints(realConcludedActivities);
+                var realConcludedActivities = activities
+                .Where(a => a.conclusionDate >= dayAvailable.Date 
+                    && a.conclusionDate < dayAvailable.Date.AddDays(1)).ToList();
 
-                var dayPerformance = new PerformanceDTO() {
-                    idealValue = idealValue,
-                    realValue = realValue,
-                    date = currentDate.Date,
-                };
-                performance.Add(dayPerformance);
+                performanceList.Add(
+                    new PerformanceDTO() {
+                        idealValue = GetPointsByDay(idealConcludedActivities),
+                        realValue = GetPointsByDay(realConcludedActivities),
+                        date = dayAvailable.Date,
+                    });
 
-                currentDate = currentDate.AddDays(1);
+                dayAvailable = dayAvailable.AddDays(1);
             }
 
-            return performance;
+            return performanceList;
         }
 
     }

@@ -21,12 +21,15 @@ namespace StudySmart.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var today = DateTime.Now;
-            var firstDay = today.AddDays(-7);
-            FilterDTO filter = new FilterDTO();
-            return Ok("");
+            var today = DateTime.Now.Date;
+            var filter = new FilterPerformanceDTO(){
+                finalDate = today,
+                initialDate = today.AddDays(-7)
+            };
+            return Ok(_rules.Filter(filter));
         }
-        public IActionResult Filter(FilterDTO filter)
+        [HttpPost("[Action]")]
+        public IActionResult Filter([FromBody] FilterPerformanceDTO filter)
         {
             return Ok(_rules.Filter(filter));
         }

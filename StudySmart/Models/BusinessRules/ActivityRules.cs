@@ -20,7 +20,7 @@ namespace StudySmart.Models.BusinessRules
         {
             return DataAccess.GetActivities();
         }
-        public List<ActivityDTO> FilterActivities(FilterDTO filter)
+        public List<ActivityDTO> FilterActivities(FilterActivityDTO filter)
         {
             return new List<ActivityDTO>();
         }
