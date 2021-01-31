@@ -20,65 +20,11 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   @ViewChild('addActivity') public addActivityModal: ElementRef;
   @ViewChild('editActivity') public editActivityModal: ElementRef;
 
-  todo: Activity[] = [
-    {
-      id: 1,
-      name: 'Testinho ES',
-      difficulty: Difficulty.easy,
-      doneStatus: DoneStatus.todo,
-      conclusionStatus: null,
-      expirationDate: null,
-      conclusionDate: null,
-      idClass: null
-    },
-    {
-      id: 1,
-      name: 'Ex RNA',
-      difficulty: Difficulty.medium,
-      doneStatus: DoneStatus.todo,
-      conclusionStatus: null,
-      expirationDate: null,
-      conclusionDate: null,
-      idClass: null
-    },
-    {
-      id: 1,
-      name: 'Trabalho ES',
-      difficulty: Difficulty.hard,
-      doneStatus: DoneStatus.todo,
-      conclusionStatus: null,
-      expirationDate: null,
-      conclusionDate: null,
-      idClass: null
-    }
-  ];
+  todo: Activity[] = [];
 
-  doing: Activity[] = [
-    {
-      id: 1,
-      name: 'Trabalho ES',
-      difficulty: Difficulty.hard,
-      doneStatus: DoneStatus.todo,
-      conclusionStatus: null,
-      expirationDate: null,
-      conclusionDate: null,
-      idClass: null
-    }
-  ];
+  doing: Activity[] = [];
 
-  done: Activity[] = [
-    {
-      id: 1,
-      name: 'Trabalho ES',
-      difficulty: Difficulty.hard,
-      doneStatus: DoneStatus.todo,
-      conclusionStatus: null,
-      // expirationDate: new Date("2021-02-01").toLocaleString("en-US", {timeZone: "Europe/London"}),
-      expirationDate: null,
-      conclusionDate: null,
-      idClass: null
-    }
-  ];
+  done: Activity[] = [];
 
   currentActivity: Activity = {
     id: 0,
@@ -90,6 +36,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     conclusionDate: null,
     idClass: null
   };
+  previousDoneStatus: DoneStatus;
 
   difficultyEnum = Difficulty;
   doneStatusEnum = DoneStatus;
@@ -104,11 +51,27 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService
   ){
     this.localeService.use('pt-br');
-    this.minDate = new Date();
+    this.minDate =  new Date(new Date().setHours(0,0,0,0));
   }
 
   async ngOnInit(): Promise<void> {
-
+    //busando as atividades
+    console.log(this.minDate);
+    await this.loadingDelay(0);
+    try{
+      this.loadingService.show();
+      await this.loadingDelay();
+      let activitiesList = await this.activitiesService.getAll();
+      this.todo = activitiesList.filter(act => act.doneStatus == DoneStatus.todo);
+      this.doing = activitiesList.filter(act => act.doneStatus == DoneStatus.doing);
+      this.done = activitiesList.filter(act => act.doneStatus == DoneStatus.done);
+    }
+    catch(err){
+      console.log(err);
+    }
+    finally{
+      this.loadingService.hide();
+    }
   }
 
   ngOnDestroy(): void {
@@ -121,43 +84,38 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-      let movedItem: Activity;
       if(event.container.id == 'cdk-drop-list-0'){
         //tarefa movida para "a fazer"
-        movedItem = this.todo[event.currentIndex];
-        movedItem.doneStatus = DoneStatus.todo;
+        this.currentActivity = this.todo[event.currentIndex];
+        this.currentActivity.doneStatus = DoneStatus.todo;
       } else if(event.container.id == 'cdk-drop-list-1'){
         //tarefa movida para "fazendo"
-        movedItem = this.doing[event.currentIndex];
-        movedItem.doneStatus = DoneStatus.doing;
+        this.currentActivity = this.doing[event.currentIndex];
+        this.currentActivity.doneStatus = DoneStatus.doing;
       } else {
         //tarefa movida para "feito"
-        movedItem = this.done[event.currentIndex];
-        movedItem.doneStatus = DoneStatus.done;
+        this.currentActivity = this.done[event.currentIndex];
+        this.currentActivity.doneStatus = DoneStatus.done;
+        console.log(this.currentActivity);
+        this.currentActivity.conclusionDate = new Date(new Date().setHours(0,0,0,0));
       }
-      console.log(movedItem);
+      this.saveEditedActivity(false);
     }
   }
 
+  //funções de adicionar atividade
   onNewActivityClick(){
     this.currentActivity = {
-      id: 0,
       name: '',
       difficulty: Difficulty.easy,
       doneStatus: DoneStatus.todo,
       conclusionStatus: null,
       expirationDate: null,
       conclusionDate: null,
-      idClass: null
+      idClass: 1 //a ser alterado quando o CRUD de matérias for implementado
     }
     this.formError = null;
     this.modalService.openModal(this.addActivityModal);
-  }
-
-  onEditActivityClick(activity: Activity){
-    this.currentActivity = Object.assign({}, activity);
-    this.formError = null;
-    this.modalService.openModal(this.editActivityModal);
   }
 
   onSaveNewActivityClick(){
@@ -182,22 +140,29 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   }
 
   async saveNewActivity(){
-
     try{
-      
+      this.loadingService.show();
+      await this.loadingDelay();
+      let savedActivity = await this.activitiesService.save(this.currentActivity);
+      this.todo.unshift(savedActivity);
     }
     catch (err){
-
+      console.log(err);
     }
     finally{
-
+      this.loadingService.hide();
     }
+  }
 
-    console.log('salvando...');
+  //funções de editar atividade
+  onEditActivityClick(activity: Activity){
+    this.currentActivity = Object.assign({}, activity);
+    this.previousDoneStatus = activity.doneStatus;
+    this.formError = null;
+    this.modalService.openModal(this.editActivityModal);
   }
 
   onSaveEditedActivityClick(){
-    console.log(this.currentActivity);
     let err: boolean = false;
     if(!this.currentActivity.name || this.currentActivity.name == ""){
       console.log('Valor inválido no campo "Nome"');
@@ -212,6 +177,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         console.log('Valor inválido no campo "Data de conclusão"');
         err = true;
       }
+    } else {
+      this.currentActivity.conclusionDate = null;
     }
 
     if(err){
@@ -222,8 +189,89 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveEditedActivity(){
-    console.log('...salvando');
+  async saveEditedActivity(changeColumn: boolean = true){
+    try{
+      this.loadingService.show();
+      await this.loadingDelay();
+      let savedActivity = await this.activitiesService.update(this.currentActivity);
+      
+      if(changeColumn){
+        //removendo atividade da coluna antiga
+        let index: number;
+        switch(this.previousDoneStatus){
+          case DoneStatus.todo:
+            index = this.todo.indexOf(this.todo.find(act => act.id == savedActivity.id));
+            this.todo.splice(index,1);
+            break
+          case DoneStatus.doing:
+            index = this.doing.indexOf(this.doing.find(act => act.id == savedActivity.id));
+            this.doing.splice(index,1);
+            break
+          case DoneStatus.done:
+            index = this.done.indexOf(this.done.find(act => act.id == savedActivity.id));
+            this.done.splice(index,1);
+            break
+        }
+
+        //adicionando atividade na coluna nova
+        switch(savedActivity.doneStatus){
+          case DoneStatus.todo:
+            this.todo.unshift(savedActivity);
+            break
+          case DoneStatus.doing:
+            this.doing.unshift(savedActivity);
+            break
+          case DoneStatus.done:
+            this.done.unshift(savedActivity);
+            break
+        }
+      }
+
+    }
+    catch (err){
+      console.log(err);
+    }
+    finally{
+      this.loadingService.hide();
+      this.modalService.closeModal();
+    }
+  }
+
+  //funções de deletar atividade
+  async onDeleteActivityClick(activity: Activity){
+    try{
+      this.loadingService.show();
+      await this.loadingDelay();
+      const deleteResult: any = await this.activitiesService.delete(activity.id);
+      let index: number;
+      switch(activity.doneStatus){
+        case DoneStatus.todo:
+          index = this.todo.indexOf(activity);
+          this.todo.splice(index,1);
+          break
+        case DoneStatus.doing:
+          index = this.doing.indexOf(activity);
+          this.doing.splice(index,1);
+          break
+        case DoneStatus.done:
+          index = this.done.indexOf(activity);
+          this.done.splice(index,1);
+          break
+      }
+      console.log(deleteResult.value); //notificar usuário
+    }
+    catch (err){
+      console.log(err);
+      console.log(err.error); //notificar usuário
+    }
+    finally{
+      this.loadingService.hide();
+    }
+  }
+
+  //funções gerais
+  loadingDelay(ms: number = 500) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }

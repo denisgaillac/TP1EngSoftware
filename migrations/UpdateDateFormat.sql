@@ -1,0 +1,2 @@
+ALTER TABLE public.activities ALTER COLUMN conclusion_date TYPE timestamp(0) USING conclusion_date::timestamp;
+ALTER TABLE public.activities ALTER COLUMN expiration_date TYPE timestamp(0) USING expiration_date::timestamp;
