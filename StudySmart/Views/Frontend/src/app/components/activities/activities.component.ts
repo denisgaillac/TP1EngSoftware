@@ -79,16 +79,17 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   }
 
   //implementando lista drag and drop
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<string[]>, columnDrop: DoneStatus) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-      if(event.container.id == 'cdk-drop-list-0'){
+      
+      if(columnDrop == DoneStatus.todo){
         //tarefa movida para "a fazer"
         this.currentActivity = this.todo[event.currentIndex];
         this.currentActivity.doneStatus = DoneStatus.todo;
-      } else if(event.container.id == 'cdk-drop-list-1'){
+      } else if(columnDrop == DoneStatus.doing){
         //tarefa movida para "fazendo"
         this.currentActivity = this.doing[event.currentIndex];
         this.currentActivity.doneStatus = DoneStatus.doing;
@@ -96,7 +97,6 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         //tarefa movida para "feito"
         this.currentActivity = this.done[event.currentIndex];
         this.currentActivity.doneStatus = DoneStatus.done;
-        console.log(this.currentActivity);
         this.currentActivity.conclusionDate = new Date(new Date().setHours(0,0,0,0));
       }
       this.saveEditedActivity(false);
