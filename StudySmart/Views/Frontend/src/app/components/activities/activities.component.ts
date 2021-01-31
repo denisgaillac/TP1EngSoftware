@@ -51,11 +51,12 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService
   ){
     this.localeService.use('pt-br');
-    this.minDate = new Date();
+    this.minDate =  new Date(new Date().setHours(0,0,0,0));
   }
 
   async ngOnInit(): Promise<void> {
     //busando as atividades
+    console.log(this.minDate);
     await this.loadingDelay(0);
     try{
       this.loadingService.show();
@@ -95,6 +96,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         //tarefa movida para "feito"
         this.currentActivity = this.done[event.currentIndex];
         this.currentActivity.doneStatus = DoneStatus.done;
+        console.log(this.currentActivity);
+        this.currentActivity.conclusionDate = new Date(new Date().setHours(0,0,0,0));
       }
       this.saveEditedActivity(false);
     }
@@ -160,7 +163,6 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
   }
 
   onSaveEditedActivityClick(){
-    console.log(this.currentActivity);
     let err: boolean = false;
     if(!this.currentActivity.name || this.currentActivity.name == ""){
       console.log('Valor inválido no campo "Nome"');
@@ -191,7 +193,6 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     try{
       this.loadingService.show();
       await this.loadingDelay();
-      this.currentActivity.conclusionDate = this.currentActivity.expirationDate; //NÃO PODE SER NULL NO BANCO (será alterado)
       let savedActivity = await this.activitiesService.update(this.currentActivity);
       
       if(changeColumn){
