@@ -1,6 +1,6 @@
 import { environment } from './../../environments/environment';
-import { Activity, DoneStatus } from './../interfaces/Activity';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Activity } from './../interfaces/Activity';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -34,8 +34,8 @@ export class ActivitiesService {
     return new Promise<Activity>((resolve, reject) => {
       this.httpClient.post<Activity>(this.baseRoute + this.controller + 'CreateActivity', activity)
       .subscribe(data => {
-          data.expirationDate = new Date(data.expirationDate);
-          data.conclusionDate = data.conclusionDate ? new Date(data.conclusionDate) : null;
+          data.expirationDate = new Date(new Date(data.expirationDate).setHours(0,0,0,0));
+          data.conclusionDate = data.conclusionDate ? new Date(new Date(data.conclusionDate).setHours(0,0,0,0)) : null;
           resolve(data);
         }, err => {
           reject(err);
