@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { PerformanceService } from '../../services/performance.service';
 import { EChartOption } from 'echarts';
 import * as echarts from 'echarts';
+import { LoadingService } from './../../services/loading.service';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+defineLocale('pt-br', ptBrLocale);
 
 @Component({
   selector: 'app-performance',
@@ -10,21 +15,9 @@ import * as echarts from 'echarts';
 })
 export class PerformanceComponent implements OnInit {
 
-  //
-  ranges: any = [
-    {
-      value: [new Date(new Date().setDate(new Date().getDate() - 7)), new Date()], 
-      label: 'Last 7 Days'
-    }, 
-    {
-      value: [new Date(), new Date(new Date().setDate(new Date().getDate() + 7))],
-      label: 'Next 7 Days'
-    }
-  ];
-
   //Construção do gráfico de Progresso
   optionsProgress = {
-    title: { text: 'Progresso' },
+    //title: { text: 'Progresso' },
     legend: { data: ['Progresso Ideal', 'Progresso Real'] },
     tooltip: { trigger: 'axis' },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
@@ -38,7 +31,7 @@ export class PerformanceComponent implements OnInit {
 
   //Construção do gráfico de Produtividade
   optionsYield = {
-    title: { text: 'Produtividade' },
+    //title: { text: 'Produtividade' },
     legend: { data: ['Taxa de Produtividade'] },
     tooltip: { trigger: 'axis' },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
@@ -50,23 +43,66 @@ export class PerformanceComponent implements OnInit {
   };
 
   //Variáveis globais
-  dataChart: any[];
+  dataProgress: any[] = [];
+  dataYield: any[] = [];
 
   constructor(
-    public performanceService: PerformanceService
+    public localeService: BsLocaleService,
+    public performanceService: PerformanceService,
+    private loadingService: LoadingService
   ) { }
 
-  ngOnInit(): void {
-    this.dataChart = this.performanceService.getData();
-    this.dataChart.forEach(dt => {
-      this.optionsProgress.xAxis.data.push(dt.day);
-      this.optionsProgress.series[0].data.push(dt.idealValue);
-      this.optionsProgress.series[1].data.push(dt.realValue);
+  async ngOnInit() {
+    try {
+      this.loadingService.show();
+      this.dataProgress = await this.performanceService.getProgress();
+      this.dataYield = this.getYield(this.dataProgress);
+      this.dataProgress.forEach(data => {
+        this.optionsProgress.xAxis.data.push(data.day);
+        this.optionsProgress.series[0].data.push(data.idealValue);
+        this.optionsProgress.series[1].data.push(data.realValue);
+      });
+      this.dataYield.forEach(data => {
+        this.optionsYield.xAxis.data.push(data.day);
+        this.optionsYield.series[0].data.push(data.value);
+      })
+      await this.loadingDelay();
+    }
+    catch (err) {
+      console.log(err);
+    }
+    finally {
+      this.loadingService.hide();
+    }
+  }
 
-      //Temporário
-      this.optionsYield.xAxis.data.push(dt.day);
-      this.optionsYield.series[0].data.push(dt.idealValue);
-    });
+  //Função para realizar busca dos valores de desempenho de acordo com o intervalo de data selecionado
+  async dateFilter(event) {
+    try {
+      this.loadingService.show();
+      await this.loadingDelay();
+      await this.performanceService._getProgress(event);
+    }
+    catch (err) {
+      console.log(err);
+    }
+    finally {
+      this.loadingService.hide();
+    }
+  }
+
+  //Função para calcular os vaores do gráfico de desempenho
+  getYield(progress) {
+    let dataYiels: any[] = [];
+    for (let i = 1; i < progress.length; i++) {
+      dataYiels.push({day: progress[i].day, value: progress[i-1].idealValue - progress[i].idealValue})
+    }
+    return dataYiels;
+  }
+
+  //Função para gerar delay quando necessário
+  loadingDelay(ms: number = 500) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }
