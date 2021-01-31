@@ -6,7 +6,7 @@ namespace StudySmart.Models.DTOs
 {
     public class ClassDTO
     {
-        public int Id {get; set; }
-        public string Name {get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
