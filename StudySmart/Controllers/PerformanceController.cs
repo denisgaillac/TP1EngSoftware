@@ -13,9 +13,9 @@ namespace StudySmart.Controllers
     [ApiController]
     public class PerformanceController : ControllerBase
     {
-        private readonly ActivityRules _rules;
+        private readonly PerformanceRules _rules;
         public PerformanceController(Context contextDB){
-            _rules = new ActivityRules(contextDB);
+            _rules = new PerformanceRules(contextDB);
         }
 
         [HttpGet]
@@ -26,9 +26,9 @@ namespace StudySmart.Controllers
             FilterDTO filter = new FilterDTO();
             return Ok("");
         }
-        public PerformanceDTO Filter(FilterDTO filter)
+        public IActionResult Filter(FilterDTO filter)
         {
-            return new PerformanceDTO();
+            return Ok(_rules.Filter(filter));
         }
         
     }
