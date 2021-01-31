@@ -10,6 +10,6 @@ namespace StudySmart.Models.Interfaces
         ActivityDTO UpdateActivity (ActivityDTO activity);
         JsonResult DeleteActivity(int id);
         List<ActivityDTO> GetActivities();
-        List<ActivityDTO> FilterActivities(FilterDTO filter);
+        List<ActivityDTO> FilterActivities(FilterActivityDTO filter);
     }
 }

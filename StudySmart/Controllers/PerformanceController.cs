@@ -13,22 +13,25 @@ namespace StudySmart.Controllers
     [ApiController]
     public class PerformanceController : ControllerBase
     {
-        private readonly ActivityRules _rules;
+        private readonly PerformanceRules _rules;
         public PerformanceController(Context contextDB){
-            _rules = new ActivityRules(contextDB);
+            _rules = new PerformanceRules(contextDB);
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var today = DateTime.Now;
-            var firstDay = today.AddDays(-7);
-            FilterDTO filter = new FilterDTO();
-            return Ok("");
+            var today = DateTime.Now.Date;
+            var filter = new FilterPerformanceDTO(){
+                finalDate = today,
+                initialDate = today.AddDays(-7)
+            };
+            return Ok(_rules.Filter(filter));
         }
-        public PerformanceDTO Filter(FilterDTO filter)
+        [HttpPost("[Action]")]
+        public IActionResult Filter([FromBody] FilterPerformanceDTO filter)
         {
-            return new PerformanceDTO();
+            return Ok(_rules.Filter(filter));
         }
         
     }
