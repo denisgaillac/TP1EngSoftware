@@ -1,6 +1,6 @@
 <div class="screen-container">
     <h1 class="screen-title text-dark ml-5">Acompanhamento de desempenho
-        <span class="material-icons ml-3 infor" (click)="openInfoModal()">
+        <span class="material-icons ml-3 infor" (click)="modalService.openModal(infoModal)">
             help
         </span>
     </h1>
@@ -28,7 +28,7 @@
 </div>
 
 
-<ng-template #infoModal>
+<ng-template #info>
     <div class="modal-header">
         <h1 class="modal-title">Informações</h1>
         <button type="button" class="close" aria-label="Close" (click)="modalService.closeModal()">
@@ -48,9 +48,9 @@
             A relação de pontuação é dada por:<br>
         </p>
         <p>
-            <strong>Atividade Difícil: </strong> <i>3 pontos;</i><br>
-            <strong>Atividade Mediana: </strong> <i>2 pontos;</i><br>
-            <strong>Atividade Fácil: </strong> <i>1 pontos;</i>
+            <strong>Atividade Difícil: </strong> 3 pontos;<br>
+            <strong>Atividade Mediana: </strong> 2 pontos;<br>
+            <strong>Atividade Fácil: </strong> 1 ponto;
         </p>
 
     </div>

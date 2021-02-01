@@ -12,8 +12,8 @@ export class NotificationService {
 
 
   dangerMessage(msg: string) {
-    this.snackBar.open(msg, 'X', {
-      duration: 2000,
+    this.snackBar.open(msg, '', {
+      duration: 3000,
       horizontalPosition: "right",
       verticalPosition: "bottom",
       panelClass: ['alert-danger'],
@@ -21,8 +21,8 @@ export class NotificationService {
   }
 
   successMessage(msg: string) {
-    this.snackBar.open(msg, 'X', {
-      duration: 2000,
+    this.snackBar.open(msg, '', {
+      duration: 3000,
       horizontalPosition: "right",
       verticalPosition: "bottom",
       panelClass: ['alert-success'],
