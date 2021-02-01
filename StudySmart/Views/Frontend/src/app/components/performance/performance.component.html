@@ -1,25 +1,60 @@
 <div class="screen-container">
-    <h1 class="screen-title text-dark">Acompanhamento de desempenho</h1>
-
+    <h1 class="screen-title text-dark ml-5">Acompanhamento de desempenho
+        <span class="material-icons ml-3 infor" (click)="openInfoModal()">
+            help
+        </span>
+    </h1>
 
     <div class="form-group dateContainer mt-0 mb-4" style="padding: auto 30% auto 30%;">
         <input type="text" placeholder="Escolha o intervalo (dd/mm - dd/mm)" class="form-control date" bsDaterangepicker 
         placement="bottom" (bsValueChange)="dateFilter($event)"
-        container = "div"
         [bsConfig]="{ 
             containerClass: 'theme-red', 
             showTodayButton: true, 
             todayPosition: 'center', 
             adaptivePosition: true 
-        }">
+        }"
+        [(ngModel)]="bsRangeValue">
     </div>
 
     <div class="row">
         <div class="col-6">
-            <div echarts [options]="optionsProgress"></div>
+            <div *ngIf="view" echarts [options]="optionsProgress"></div>
         </div>
         <div class="col-6">
-            <div echarts [options]="optionsYield"></div>    
+            <div *ngIf="view" echarts [options]="optionsYield"></div>    
         </div>
     </div>
 </div>
+
+
+<ng-template #infoModal>
+    <div class="modal-header">
+        <h1 class="modal-title">Informações</h1>
+        <button type="button" class="close" aria-label="Close" (click)="modalService.closeModal()">
+            <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body justify">
+        <p>
+            O <strong>gráfico Burdown</strong> apresenta o seu progresso real (linha laranja) em relação àquele que seria o ideal (linha azul) com base nas datas de entrega das atividades.<br>
+
+            No eixo horizontal é mostrado o intervalo de dias a ser analisado e no eixo vertical temos a somátório dos pontos das atividades pendentes.<br>
+        </p>
+        <p>
+            Já o <strong>gráfico de produtividade</strong> é dado pela relação entre a pontuação das tarefas realizadas e o intervalo de um dia, durante o periodo selecionado.
+        </p>
+        <p>
+            A relação de pontuação é dada por:<br>
+        </p>
+        <p>
+            <strong>Atividade Difícil: </strong> <i>3 pontos;</i><br>
+            <strong>Atividade Mediana: </strong> <i>2 pontos;</i><br>
+            <strong>Atividade Fácil: </strong> <i>1 pontos;</i>
+        </p>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="modalService.closeModal()">Fechar</button>
+    </div>
+</ng-template>
