@@ -18,6 +18,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxLoadingModule } from 'ngx-loading';
 import { LoadingComponent } from './general-components/loading/loading.component';
+import { ClassesComponent } from './components/classes/classes.component';
 
 
 
@@ -27,7 +28,8 @@ import { LoadingComponent } from './general-components/loading/loading.component
     ActivitiesComponent,
     PerformanceComponent,
     NavbarComponent,
-    LoadingComponent
+    LoadingComponent,
+    ClassesComponent
   ],
   imports: [
     BrowserModule,
