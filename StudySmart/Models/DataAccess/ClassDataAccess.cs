@@ -26,7 +26,6 @@ namespace StudySmart.Models.DataAccess
         public ClassDTO CreateClass(ClassDTO classToCreate)
         {
             var newClass = new Classes(){
-                IdClass = classToCreate.Id,
                 ClassName = classToCreate.Name,
             };
             var entityEntry = context.ClassesDB.Add(newClass);

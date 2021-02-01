@@ -1,12 +1,14 @@
 import { LoadingService } from './../../services/loading.service';
 import { ActivitiesService } from './../../services/activities.service';
 import { Activity, Difficulty, DoneStatus } from '../../interfaces/Activity';
+import { Class } from '../../interfaces/Class';
 import { ModalService } from '../../services/modal.service';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker'
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { ClassesService } from 'src/app/services/classes.service';
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -26,16 +28,9 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
   done: Activity[] = [];
 
-  currentActivity: Activity = {
-    id: 0,
-    name: '',
-    difficulty: Difficulty.easy,
-    doneStatus: DoneStatus.todo,
-    conclusionStatus: null,
-    expirationDate: null,
-    conclusionDate: null,
-    idClass: null
-  };
+  classes: Class[] = [];
+
+  currentActivity: Activity;
   previousDoneStatus: DoneStatus;
 
   difficultyEnum = Difficulty;
@@ -48,7 +43,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     public modalService: ModalService,
     public localeService: BsLocaleService,
     private activitiesService: ActivitiesService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private classesService: ClassesService
   ){
     this.localeService.use('pt-br');
     this.minDate =  new Date(new Date().setHours(0,0,0,0));
@@ -56,7 +52,6 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     //busando as atividades
-    console.log(this.minDate);
     await this.loadingDelay(0);
     try{
       this.loadingService.show();
@@ -65,6 +60,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       this.todo = activitiesList.filter(act => act.doneStatus == DoneStatus.todo);
       this.doing = activitiesList.filter(act => act.doneStatus == DoneStatus.doing);
       this.done = activitiesList.filter(act => act.doneStatus == DoneStatus.done);
+      this.classes = await this.classesService.getAll();
     }
     catch(err){
       console.log(err);
@@ -112,7 +108,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       conclusionStatus: null,
       expirationDate: null,
       conclusionDate: null,
-      idClass: 1 //a ser alterado quando o CRUD de matérias for implementado
+      idClass: null
     }
     this.formError = null;
     this.modalService.openModal(this.addActivityModal);
@@ -127,6 +123,10 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
     if(!this.currentActivity.expirationDate || this.currentActivity.expirationDate.toDateString() == new Date(undefined).toDateString()){
       console.log('Valor inválido no campo "Data de entrega"');
+      err = true;
+    }
+    if(this.currentActivity.idClass <= 0){
+      console.log('Valor inválido no campo "Matéria"');
       err = true;
     }
 
@@ -179,6 +179,10 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       }
     } else {
       this.currentActivity.conclusionDate = null;
+    }
+    if(this.currentActivity.idClass <= 0){
+      console.log('Valor inválido no campo "Matéria"');
+      err = true;
     }
 
     if(err){

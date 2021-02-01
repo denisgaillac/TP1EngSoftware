@@ -192,6 +192,12 @@
                        [(ngModel)]="currentActivity.expirationDate"
                 />
             </div>
+            <div class="form-group">
+                <label for="dropdownClasses">Matéria</label>
+                <select class=form-control id="dropdownClasses" [(ngModel)]="currentActivity.idClass" name="classOfActivity">
+                    <option *ngFor="let item of classes" [ngValue]="item.id">{{item.name}}</option>
+                </select>
+            </div>
             <div *ngIf="this.formError" class="form-group mb-0">
                 <div class="alert alert-danger p-2 text-center">
                     <b>Erro!</b> {{this.formError}}
@@ -304,6 +310,12 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="dropdownClasses">Matéria</label>
+                <select class=form-control id="dropdownClasses" [(ngModel)]="currentActivity.idClass" name="classOfActivity">
+                    <option *ngFor="let item of classes" [ngValue]="item.id">{{item.name}}</option>
+                </select>
             </div>
             <div *ngIf="formError" class="form-group mb-0">
                 <div class="alert alert-danger p-2 text-center">
