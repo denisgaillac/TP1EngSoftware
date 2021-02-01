@@ -52,7 +52,6 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     //busando as atividades
-    console.log(this.minDate);
     await this.loadingDelay(0);
     try{
       this.loadingService.show();

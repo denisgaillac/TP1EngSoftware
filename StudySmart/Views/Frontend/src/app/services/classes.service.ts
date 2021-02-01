@@ -26,41 +26,37 @@ export class ClassesService {
     })
   }
 
-  // save(activity: Activity): Promise<Activity>{
-  //   return new Promise<Activity>((resolve, reject) => {
-  //     this.httpClient.post<Activity>(this.baseRoute + this.controller + 'CreateActivity', activity)
-  //     .subscribe(data => {
-  //         data.expirationDate = new Date(new Date(data.expirationDate).setHours(0,0,0,0));
-  //         data.conclusionDate = data.conclusionDate ? new Date(new Date(data.conclusionDate).setHours(0,0,0,0)) : null;
-  //         resolve(data);
-  //       }, err => {
-  //         reject(err);
-  //     });
-  //   })
-  // }
+  save(newClass: Class): Promise<Class>{
+    return new Promise<Class>((resolve, reject) => {
+      this.httpClient.post<Class>(this.baseRoute + this.controller + 'CreateClass', newClass)
+      .subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err);
+      });
+    })
+  }
 
-  // update(activity: Activity): Promise<Activity>{
-  //   return new Promise<Activity>((resolve, reject) => {
-  //     this.httpClient.patch<Activity>(this.baseRoute + this.controller + 'UpdateActivity', activity)
-  //     .subscribe(data => {
-  //         data.expirationDate = new Date(data.expirationDate);
-  //         data.conclusionDate = data.conclusionDate ? new Date(data.conclusionDate) : null;
-  //         resolve(data);
-  //       }, err => {
-  //         reject(err);
-  //     });
-  //   })
-  // }
+  update(classToUpdate: Class): Promise<Class>{
+    return new Promise<Class>((resolve, reject) => {
+      this.httpClient.patch<Class>(this.baseRoute + this.controller + 'UpdateClass', classToUpdate)
+      .subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err);
+      });
+    })
+  }
 
-  // delete(activityId: number){
-  //   return new Promise<JSON>((resolve, reject) => {
-  //     this.httpClient.delete<JSON>(this.baseRoute + this.controller + 'DeleteActivity/' + activityId)
-  //     .subscribe(data => {
-  //         resolve(data);
-  //       }, err => {
-  //         reject(err);
-  //     });
-  //   })
-  // }
+  delete(classId: number){
+    return new Promise<JSON>((resolve, reject) => {
+      this.httpClient.delete<JSON>(this.baseRoute + this.controller + 'DeleteClass/' + classId)
+      .subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err);
+      });
+    })
+  }
 
 }
