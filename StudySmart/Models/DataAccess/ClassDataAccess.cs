@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudySmart.Models.DTOs;
 using StudySmart.Models.Data;
 using StudySmart.Models.DataEntities;
+using Microsoft.EntityFrameworkCore;
 
 namespace StudySmart.Models.DataAccess
 {
@@ -47,6 +48,7 @@ namespace StudySmart.Models.DataAccess
         public string DeleteClass(int idToDelete){
             var ClassToDelete = context.ClassesDB.Where(x => x.IdClass == idToDelete).FirstOrDefault();
             if(ClassToDelete != null){
+                context.ActivitiesDB.RemoveRange(context.ActivitiesDB.Where(a => a.IdClass == idToDelete));
                 context.ClassesDB.Remove(ClassToDelete);
                 context.SaveChanges();
                 return "Matéria excluída com sucesso!";
