@@ -49,9 +49,9 @@ namespace StudySmart.Models.DataAccess
             if(ClassToDelete != null){
                 context.ClassesDB.Remove(ClassToDelete);
                 context.SaveChanges();
-                return "Atividade excluída com sucesso!";
+                return "Matéria excluída com sucesso!";
             }
-            throw new Exception("Ocorreu um erro ao excluir a atividade.");
+            throw new Exception("Ocorreu um erro ao excluir a Matéria.");
         }
 
     }
