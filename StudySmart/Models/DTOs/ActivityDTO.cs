@@ -13,7 +13,6 @@ namespace StudySmart.Models.DTOs
         public DateTime expirationDate {get; set; }
         public DateTime? conclusionDate {get; set; }
         public int idClass { get; set; }
-
-        public ClassDTO classOfActivity {get; set; }
+        public virtual ClassDTO classOfActivity {get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace StudySmart.Models.DataEntities
         public DateTime ExpirationDate {get; set; }
         public DateTime? ConclusionDate {get; set; }
         public int IdClass { get; set; }
-        public Classes Class {get; set; }
+        public virtual Classes Class {get; set; }
         
     }
 }

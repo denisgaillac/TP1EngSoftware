@@ -15,11 +15,16 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  navigatePerformance() {
-    this.router.navigateByUrl('/performance');
-  }
   navigateActivities() {
     this.router.navigateByUrl('/');
+  }
+
+  navigatePerformance() {
+    this.router.navigateByUrl('/desempenho');
+  }
+
+  navigateClasses() {
+    this.router.navigateByUrl('/materias');
   }
 
 }
