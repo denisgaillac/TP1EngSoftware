@@ -1,3 +1,5 @@
+import { Class } from './Class';
+
 export interface Activity {
     id?: number,
     name: string,
@@ -6,7 +8,8 @@ export interface Activity {
     conclusionStatus: boolean,
     expirationDate: Date,
     conclusionDate: Date,
-    idClass: number
+    idClass: number,
+    classOfActivity?: Class
 }
 
 export enum Difficulty {
