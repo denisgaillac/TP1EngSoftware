@@ -59,35 +59,41 @@ namespace StudySmart.Models.DataAccess
         }
         public ActivityDTO CreateActivity(ActivityDTO activityToCreate)
         {
-            var activity = new Activities(){
-                NameActivity = activityToCreate.name,
-                Difficulty = activityToCreate.difficulty,
-                statusActivity = activityToCreate.doneStatus,
-                StatusConclusionDate = activityToCreate.conclusionStatus,
-                ExpirationDate = activityToCreate.expirationDate,
-                ConclusionDate = activityToCreate.conclusionDate,
-                IdClass = activityToCreate.idClass
-            };
-            var entityEntry = context.ActivitiesDB.Add(activity);
-            context.SaveChanges();
-            activityToCreate.id = entityEntry.Entity.IdActivity;
-            return activityToCreate;
+            if(activityToCreate.idClass != 0){
+                var activity = new Activities(){
+                    NameActivity = activityToCreate.name,
+                    Difficulty = activityToCreate.difficulty,
+                    statusActivity = activityToCreate.doneStatus,
+                    StatusConclusionDate = activityToCreate.conclusionStatus,
+                    ExpirationDate = activityToCreate.expirationDate,
+                    ConclusionDate = activityToCreate.conclusionDate,
+                    IdClass = activityToCreate.idClass
+                };
+                var entityEntry = context.ActivitiesDB.Add(activity);
+                context.SaveChanges();
+                activityToCreate.id = entityEntry.Entity.IdActivity;
+                return activityToCreate;
+            }
+            throw new Exception("Não há matéria associada à atividade!!");
         }
         public ActivityDTO UpdateActivity(ActivityDTO activityToUpdate)
         {
-            var activity = new Activities(){
-                IdActivity = activityToUpdate.id,
-                NameActivity = activityToUpdate.name,
-                Difficulty = activityToUpdate.difficulty,
-                statusActivity = activityToUpdate.doneStatus,
-                StatusConclusionDate = activityToUpdate.conclusionStatus,
-                ExpirationDate = activityToUpdate.expirationDate,
-                ConclusionDate = activityToUpdate.conclusionDate,
-                IdClass = activityToUpdate.idClass
-            };
-            context.ActivitiesDB.Update(activity);
-            context.SaveChanges();
-            return activityToUpdate;
+            if(activityToUpdate.idClass != 0){
+                var activity = new Activities(){
+                    IdActivity = activityToUpdate.id,
+                    NameActivity = activityToUpdate.name,
+                    Difficulty = activityToUpdate.difficulty,
+                    statusActivity = activityToUpdate.doneStatus,
+                    StatusConclusionDate = activityToUpdate.conclusionStatus,
+                    ExpirationDate = activityToUpdate.expirationDate,
+                    ConclusionDate = activityToUpdate.conclusionDate,
+                    IdClass = activityToUpdate.idClass
+                };
+                context.ActivitiesDB.Update(activity);
+                context.SaveChanges();
+                return activityToUpdate;
+            }
+            throw new Exception("Não há matéria associada à atividade!!");
         }
 
         public string DeleteActivity(int idToDelete){
