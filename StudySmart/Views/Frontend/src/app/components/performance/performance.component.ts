@@ -17,7 +17,7 @@ defineLocale('pt-br', ptBrLocale);
 })
 export class PerformanceComponent implements OnInit {
 
-  @ViewChild('infoModal') public infoModal: ElementRef;
+  @ViewChild('info') public infoModal: ElementRef;
 
   //Construção do gráfico de Progresso
   optionsProgress = {
@@ -26,7 +26,7 @@ export class PerformanceComponent implements OnInit {
     tooltip: { trigger: 'axis' },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
     xAxis: { type: 'category', boundaryGap: false, data: [] },
-    yAxis: { type: 'value', name: 'Pontos (Un)',
+    yAxis: { type: 'value', name: 'Pontos',
       nameTextStyle: {
       color: "black",
       align: "right"
@@ -44,7 +44,7 @@ export class PerformanceComponent implements OnInit {
     tooltip: { trigger: 'axis' },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
     xAxis: { type: 'category', boundaryGap: false, data: [] },
-    yAxis: { type: 'value', name:"Pontos (Un)",       
+    yAxis: { type: 'value', name:"Pontos",       
       nameTextStyle: {
       color: "black",
       align: "right"
@@ -69,23 +69,24 @@ export class PerformanceComponent implements OnInit {
     public performanceService: PerformanceService,
     public notificationService: NotificationService,
     private loadingService: LoadingService,
-    private modalService: ModalService
-  ) { }
+    public modalService: ModalService
+  ) {
+    this.localeService.use('pt-br');
+  }
 
   //Função executada ao iniciar componente
   async ngOnInit() {
-    this.bsValue.setDate(this.bsValue.getDate() - 7);
+    this.bsValue.setDate(this.bsValue.getDate() - 6);
     this.bsRangeValue = [this.bsValue, this.maxDate];
   }
 
   //Função que calcula o número total de pontos e faz uma chamada para a formatação dos valores
-  TotalDifficulty(dataProgress) {
+  totalDifficulty(dataProgress) {
     let total: number = 0;
     for (let i=0; i < dataProgress.length; i++) {
       total += dataProgress[i].idealValue;
     }
     let data: any = this.changeData(dataProgress, total);
-    console.log(data);
     return data
   }
 
@@ -111,7 +112,7 @@ export class PerformanceComponent implements OnInit {
     try {
       this.clearCharts();
       this.loadingService.show();
-      let dataProgress = this.TotalDifficulty(data);
+      let dataProgress = this.totalDifficulty(data);
       this.dataYield = this.getYield(dataProgress);
       dataProgress.forEach(data => {
         this.optionsProgress.xAxis.data.push(data.date);
@@ -123,10 +124,8 @@ export class PerformanceComponent implements OnInit {
         this.optionsYield.series[0].data.push(data.value);
       })
       await this.loadingDelay();
-      this.notificationService.successMessage("Os gráficos foram atualizados");
     }
     catch (err) {
-      this.notificationService.dangerMessage("Não foi possível carregar os gráficos");
       console.log(err);
     }
     finally {
@@ -147,15 +146,20 @@ export class PerformanceComponent implements OnInit {
 
   //Função para realizar busca dos valores de desempenho de acordo com o intervalo de data selecionado
   async dateFilter(event) {
+    if(!event){
+      return
+    }
     try {
+      await this.loadingDelay(0);
       this.loadingService.show();
-      let data: any = await this.performanceService.getProgress({initialDate: event[0], finalDate: event[1]});
+      let data: any = await this.performanceService.getProgress({initialDate: this.bsRangeValue[0], finalDate: new Date(this.bsRangeValue[1].setDate(this.bsRangeValue[1].getDate() + 1))});
       this.clearCharts();
       this.chartBuilder(data);
-      this.loadingDelay();
+      await this.loadingDelay();
     }
     catch (err) {
       console.log(err);
+      this.notificationService.dangerMessage("Erro ao carregar os gráfico");
     }
     finally {
       this.loadingService.hide();
@@ -169,10 +173,6 @@ export class PerformanceComponent implements OnInit {
       dataYiels.push({date: progress[i].date, value: progress[i-1].realValue - progress[i].realValue})
     }
     return dataYiels;
-  }
-
-  openInfoModal() {
-    this.modalService.openModal(this.infoModal);
   }
 
   //Função para gerar delay quando necessário

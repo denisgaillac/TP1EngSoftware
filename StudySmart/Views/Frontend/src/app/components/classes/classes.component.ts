@@ -1,3 +1,4 @@
+import { NotificationService } from './../../services/notification.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { LoadingService } from './../../services/loading.service';
 import { ModalService } from '../../services/modal.service';
@@ -23,7 +24,8 @@ export class ClassesComponent implements OnInit {
   constructor(
     public modalService: ModalService,
     public loadingService: LoadingService,
-    public classesService: ClassesService
+    public classesService: ClassesService,
+    public notificationService: NotificationService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -75,6 +77,7 @@ export class ClassesComponent implements OnInit {
     }
     catch (err){
       console.log(err);
+      this.notificationService.dangerMessage("Erro ao adicionar matéria");
     }
     finally{
       this.loadingService.hide();
@@ -99,6 +102,7 @@ export class ClassesComponent implements OnInit {
       this.formError = "Preencha todos os campos do formulário para salvar";
     } else {
       this.formError = null;
+      this.modalService.closeModal();
       this.saveEditedClass();
     }
   }
@@ -114,13 +118,14 @@ export class ClassesComponent implements OnInit {
       } else{
         throw new Error('Index de matéria inválido');
       }
+      this.notificationService.successMessage("Matéria atualizada com sucesso");
     }
     catch (err){
       console.log(err);
+      this.notificationService.dangerMessage("Erro ao atualizar matéria");
     }
     finally{
       this.loadingService.hide();
-      this.modalService.closeModal();
     }
   }
 
@@ -132,11 +137,10 @@ export class ClassesComponent implements OnInit {
       const deleteResult: any = await this.classesService.delete(item.id);
       let index: number = this.classes.indexOf(item);
       this.classes.splice(index,1);
-      //notificar usuário
     }
     catch (err){
       console.log(err);
-      //notificar usuário
+      this.notificationService.dangerMessage("Erro ao deletar matéria");
     }
     finally{
       this.loadingService.hide();
