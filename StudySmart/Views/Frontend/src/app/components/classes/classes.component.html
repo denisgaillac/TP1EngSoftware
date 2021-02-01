@@ -1,0 +1,90 @@
+<div class="screen-container">
+
+    <h1 class="screen-title text-dark">Gerenciar Matérias</h1>
+
+    <!-- botão para cadastro de atividades -->
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-dark float-right" (click)="onNewClassClick()">
+                <span class="material-icons mr-1">add</span>
+                Adicionar matéria
+            </button>
+        </div>
+    </div>
+
+    <!-- TODO List de atividades -->
+    <div class="row no-gutters">
+
+        <div class="col-4" *ngFor="let item of classes">
+            <div class="list-item">
+                <div class="row m-0 p-0 no-gutters">
+                    <div class="col-9">
+                        <p class="ml-1">{{item.name}}</p>
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-sm btn-danger float-right action-button">
+                            <span class="material-icons" (click)="onDeleteClassClick(item)">delete</span>
+                        </button>
+                        <button class="btn btn-sm btn-dark float-right action-button">
+                            <span class="material-icons" (click)="onEditClassClick(item)">edit</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<ng-template #addClass>
+    <div class="modal-header">
+        <h1 class="modal-title">Adicionar Matéria</h1>
+        <button type="button" class="close" aria-label="Close" (click)="modalService.closeModal()">
+            <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="className">Nome</label>
+                <input type="text" class="form-control" id="className" placeholder="Nome" name="name" [(ngModel)]="currentClass.name">
+            </div>
+            <div *ngIf="this.formError" class="form-group mb-0">
+                <div class="alert alert-danger p-2 text-center">
+                    <b>Erro!</b> {{this.formError}}
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="onSaveNewClassClick()">Salvar</button>
+        <button type="button" class="btn btn-dark" (click)="modalService.closeModal()">Cancelar</button>
+    </div>
+</ng-template>
+
+<ng-template #editClass>
+    <div class="modal-header">
+        <h1 class="modal-title">Editar Matéria</h1>
+        <button type="button" class="close" aria-label="Close" (click)="modalService.closeModal()">
+            <span aria-hidden="true" style="font-size: 1.5rem;">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="className">Nome</label>
+                <input type="text" class="form-control" id="className" placeholder="Nome" name="name" [(ngModel)]="currentClass.name">
+            </div>
+            <div *ngIf="this.formError" class="form-group mb-0">
+                <div class="alert alert-danger p-2 text-center">
+                    <b>Erro!</b> {{this.formError}}
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="onSaveEditedClassClick()">Salvar</button>
+        <button type="button" class="btn btn-dark" (click)="modalService.closeModal()">Cancelar</button>
+    </div>
+</ng-template>
