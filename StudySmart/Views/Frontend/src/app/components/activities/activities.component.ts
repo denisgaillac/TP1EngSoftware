@@ -1,3 +1,4 @@
+import { NotificationService } from './../../services/notification.service';
 import { LoadingService } from './../../services/loading.service';
 import { ActivitiesService } from './../../services/activities.service';
 import { Activity, Difficulty, DoneStatus } from '../../interfaces/Activity';
@@ -44,7 +45,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     public localeService: BsLocaleService,
     private activitiesService: ActivitiesService,
     private loadingService: LoadingService,
-    private classesService: ClassesService
+    private classesService: ClassesService,
+    private notificationService: NotificationService
   ){
     this.localeService.use('pt-br');
     this.minDate =  new Date(new Date().setHours(0,0,0,0));
@@ -148,6 +150,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
     catch (err){
       console.log(err);
+      this.notificationService.dangerMessage("Erro ao adicionar atividade");
     }
     finally{
       this.loadingService.hide();
@@ -189,6 +192,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       this.formError = "Preencha todos os campos do formulário para salvar";
     } else {
       this.formError = null;
+      this.modalService.closeModal();
       this.saveEditedActivity();
     }
   }
@@ -229,15 +233,17 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
             this.done.unshift(savedActivity);
             break
         }
+
+        this.notificationService.successMessage("Atividade atualizada com sucesso");
       }
 
     }
     catch (err){
       console.log(err);
+      this.notificationService.dangerMessage("Erro ao atualizar atividade");
     }
     finally{
       this.loadingService.hide();
-      this.modalService.closeModal();
     }
   }
 
@@ -262,11 +268,10 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
           this.done.splice(index,1);
           break
       }
-      console.log(deleteResult.value); //notificar usuário
     }
     catch (err){
       console.log(err);
-      console.log(err.error); //notificar usuário
+      this.notificationService.dangerMessage("Erro ao deletar atividade");
     }
     finally{
       this.loadingService.hide();

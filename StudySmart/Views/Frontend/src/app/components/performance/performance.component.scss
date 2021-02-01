@@ -1,6 +1,28 @@
 .date {
-    width: 25%;
+    width: 17%;
     display: block;
     margin-left: auto;
-    margin-right: auto
+    margin-right: auto;
+}
+
+.infor {
+    cursor: pointer;
+    color:#5bc0de;
+    vertical-align: middle;
+}
+
+.justify {
+    text-align: justify
+}
+
+::ng-deep snack-bar-container.alert-danger{
+    padding: 20px;
+    background-color:  #DC3545;
+    color: white;
+  }
+
+::ng-deep snack-bar-container.alert-success{
+    padding: 20px;
+    background-color: #28A745;
+    color: white;
 }

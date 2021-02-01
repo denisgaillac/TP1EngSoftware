@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PerformanceService } from '../../services/performance.service';
 import { EChartOption } from 'echarts';
 import * as echarts from 'echarts';
@@ -6,6 +6,8 @@ import { LoadingService } from './../../services/loading.service';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { NotificationService } from '../../services/notification.service';
+import { ModalService } from '../../services/modal.service';
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -15,17 +17,23 @@ defineLocale('pt-br', ptBrLocale);
 })
 export class PerformanceComponent implements OnInit {
 
+  @ViewChild('info') public infoModal: ElementRef;
+
   //Construção do gráfico de Progresso
   optionsProgress = {
     //title: { text: 'Progresso' },
-    legend: { data: ['Progresso Ideal', 'Progresso Real'] },
+    legend: { data: ['Burndown Ideal', 'Burndown Real'] },
     tooltip: { trigger: 'axis' },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
     xAxis: { type: 'category', boundaryGap: false, data: [] },
-    yAxis: { type: 'value' },
+    yAxis: { type: 'value', name: 'Pontos',
+      nameTextStyle: {
+      color: "black",
+      align: "right"
+    }},
     series: [
-      { name: 'Progresso Ideal', type: 'line', stack: 'Progresso Ideal', color: 'blue', data: [] },
-      { name: 'Progresso Real', type: 'line', stack: 'Progresso Real', color: 'orange', data: [] },
+      { name: 'Burndown Ideal', type: 'line', stack: 'Burndown Ideal', color: 'blue', data: [] },
+      { name: 'Burndown Real', type: 'line', stack: 'Burndown Real', color: 'orange', data: [] },
     ]
   };
 
@@ -36,34 +44,83 @@ export class PerformanceComponent implements OnInit {
     tooltip: { trigger: 'axis' },
     grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
     xAxis: { type: 'category', boundaryGap: false, data: [] },
-    yAxis: { type: 'value' },
+    yAxis: { type: 'value', name:"Pontos",       
+      nameTextStyle: {
+      color: "black",
+      align: "right"
+    }
+    },
     series: [
       { name: 'Taxa de Produtividade', type: 'line', stack: 'Progresso Ideal', color: 'green', data: [] }
     ]
   };
 
+  bsValue = new Date();
+  bsRangeValue: Date[];
+  maxDate = new Date();
+
   //Variáveis globais
-  dataProgress: any[] = [];
+  dataProgress: any[];
   dataYield: any[] = [];
+  view: boolean = true;
 
   constructor(
     public localeService: BsLocaleService,
     public performanceService: PerformanceService,
-    private loadingService: LoadingService
-  ) { }
+    public notificationService: NotificationService,
+    private loadingService: LoadingService,
+    public modalService: ModalService
+  ) {
+    this.localeService.use('pt-br');
+  }
 
+  //Função executada ao iniciar componente
   async ngOnInit() {
+    this.bsValue.setDate(this.bsValue.getDate() - 6);
+    this.bsRangeValue = [this.bsValue, this.maxDate];
+  }
+
+  //Função que calcula o número total de pontos e faz uma chamada para a formatação dos valores
+  totalDifficulty(dataProgress) {
+    let total: number = 0;
+    for (let i=0; i < dataProgress.length; i++) {
+      total += dataProgress[i].idealValue;
+    }
+    let data: any = this.changeData(dataProgress, total);
+    return data
+  }
+
+  //Função que muda o formato dos valores para se adequar ao gráfico
+  changeData(dataProgress, total) {
+    let totalIdeal = total;
+    let totalReal = total;
+    dataProgress.forEach(dp => {
+      let aux1: any[] = dp.date.split("-");
+      let aux2: any[] = aux1[2].split("T");
+      dp.date = aux2[0] + "/" + aux1[1];
+
+      dp.idealValue = totalIdeal - dp.idealValue;
+      totalIdeal = dp.idealValue;
+      dp.realValue = totalReal - dp.realValue;
+      totalReal = dp.realValue;
+    });
+    return dataProgress;
+  }
+
+  //Função para construir os gráficos
+  async chartBuilder(data) {
     try {
+      this.clearCharts();
       this.loadingService.show();
-      this.dataProgress = await this.performanceService.getProgress();
-      this.dataYield = this.getYield(this.dataProgress);
-      this.dataProgress.forEach(data => {
-        this.optionsProgress.xAxis.data.push(data.day);
+      let dataProgress = this.totalDifficulty(data);
+      this.dataYield = this.getYield(dataProgress);
+      dataProgress.forEach(data => {
+        this.optionsProgress.xAxis.data.push(data.date);
         this.optionsProgress.series[0].data.push(data.idealValue);
         this.optionsProgress.series[1].data.push(data.realValue);
       });
       this.dataYield.forEach(data => {
-        this.optionsYield.xAxis.data.push(data.day);
+        this.optionsYield.xAxis.data.push(data.date);
         this.optionsYield.series[0].data.push(data.value);
       })
       await this.loadingDelay();
@@ -72,19 +129,37 @@ export class PerformanceComponent implements OnInit {
       console.log(err);
     }
     finally {
+      this.view = true;
       this.loadingService.hide();
     }
   }
 
+  //Função para limpar os gráficos e plotar valores atualizados
+  clearCharts() {
+    this.view = false;
+    this.optionsProgress.xAxis.data = [];
+    this.optionsProgress.series[0].data = [];
+    this.optionsProgress.series[1].data = [];
+    this.optionsYield.xAxis.data = [];
+    this.optionsYield.series[0].data = [];
+  }
+
   //Função para realizar busca dos valores de desempenho de acordo com o intervalo de data selecionado
   async dateFilter(event) {
+    if(!event){
+      return
+    }
     try {
+      await this.loadingDelay(0);
       this.loadingService.show();
+      let data: any = await this.performanceService.getProgress({initialDate: this.bsRangeValue[0], finalDate: new Date(this.bsRangeValue[1].setDate(this.bsRangeValue[1].getDate() + 1))});
+      this.clearCharts();
+      this.chartBuilder(data);
       await this.loadingDelay();
-      await this.performanceService._getProgress(event);
     }
     catch (err) {
       console.log(err);
+      this.notificationService.dangerMessage("Erro ao carregar os gráfico");
     }
     finally {
       this.loadingService.hide();
@@ -95,7 +170,7 @@ export class PerformanceComponent implements OnInit {
   getYield(progress) {
     let dataYiels: any[] = [];
     for (let i = 1; i < progress.length; i++) {
-      dataYiels.push({day: progress[i].day, value: progress[i-1].idealValue - progress[i].idealValue})
+      dataYiels.push({date: progress[i].date, value: progress[i-1].realValue - progress[i].realValue})
     }
     return dataYiels;
   }

@@ -18,6 +18,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxLoadingModule } from 'ngx-loading';
 import { LoadingComponent } from './general-components/loading/loading.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ClassesComponent } from './components/classes/classes.component';
 
 
@@ -43,6 +44,7 @@ import { ClassesComponent } from './components/classes/classes.component';
     NgxEchartsModule,
     BsDatepickerModule.forRoot(),
     HttpClientModule,
+    MatSnackBarModule,
     NgxLoadingModule.forRoot({})
   ],
   providers: [],
