@@ -4,6 +4,7 @@ using StudySmart.Models.DTOs;
 using StudySmart.Models.Data;
 using StudySmart.Models.DataEntities;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace StudySmart.Models.DataAccess
 {
@@ -39,16 +40,22 @@ namespace StudySmart.Models.DataAccess
         }
         public List<ActivityDTO> GetActivities()
         {
-            return context.ActivitiesDB.Select(x => new ActivityDTO(){
-                id = x.IdActivity,
-                name = x.NameActivity,
-                difficulty = x.Difficulty,
-                doneStatus = x.statusActivity,
-                conclusionStatus = x.StatusConclusionDate,
-                conclusionDate = x.ConclusionDate,
-                expirationDate = x.ExpirationDate,
-                idClass = x.IdClass
-            }).ToList();
+            return context.ActivitiesDB.Include(x => x.Class)
+                .Select(x => new ActivityDTO(){
+                    id = x.IdActivity,
+                    name = x.NameActivity,
+                    difficulty = x.Difficulty,
+                    doneStatus = x.statusActivity,
+                    conclusionStatus = x.StatusConclusionDate,
+                    conclusionDate = x.ConclusionDate,
+                    expirationDate = x.ExpirationDate,
+                    idClass = x.IdClass,
+                    
+                    classOfActivity = new ClassDTO(){
+                        Name = x.Class.ClassName,
+                        Id = x.IdClass
+                    }
+                }).ToList();
         }
         public ActivityDTO CreateActivity(ActivityDTO activityToCreate)
         {
