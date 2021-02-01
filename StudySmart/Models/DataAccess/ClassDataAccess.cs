@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudySmart.Models.DTOs;
 using StudySmart.Models.Data;
 using StudySmart.Models.DataEntities;
+using Microsoft.EntityFrameworkCore;
 
 namespace StudySmart.Models.DataAccess
 {
@@ -25,7 +26,6 @@ namespace StudySmart.Models.DataAccess
         public ClassDTO CreateClass(ClassDTO classToCreate)
         {
             var newClass = new Classes(){
-                IdClass = classToCreate.Id,
                 ClassName = classToCreate.Name,
             };
             var entityEntry = context.ClassesDB.Add(newClass);
@@ -47,11 +47,12 @@ namespace StudySmart.Models.DataAccess
         public string DeleteClass(int idToDelete){
             var ClassToDelete = context.ClassesDB.Where(x => x.IdClass == idToDelete).FirstOrDefault();
             if(ClassToDelete != null){
+                context.ActivitiesDB.RemoveRange(context.ActivitiesDB.Where(a => a.IdClass == idToDelete));
                 context.ClassesDB.Remove(ClassToDelete);
                 context.SaveChanges();
-                return "Atividade excluída com sucesso!";
+                return "Matéria excluída com sucesso!";
             }
-            throw new Exception("Ocorreu um erro ao excluir a atividade.");
+            throw new Exception("Ocorreu um erro ao excluir a Matéria.");
         }
 
     }

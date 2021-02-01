@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxLoadingModule } from 'ngx-loading';
 import { LoadingComponent } from './general-components/loading/loading.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ClassesComponent } from './components/classes/classes.component';
 
 
 
@@ -28,7 +29,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ActivitiesComponent,
     PerformanceComponent,
     NavbarComponent,
-    LoadingComponent
+    LoadingComponent,
+    ClassesComponent
   ],
   imports: [
     BrowserModule,

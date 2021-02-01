@@ -1,3 +1,4 @@
+import { ClassesComponent } from './components/classes/classes.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PerformanceComponent } from "./components/performance/performance.component";
@@ -9,8 +10,12 @@ const routes: Routes = [
     component: ActivitiesComponent
   },
   {
-    path:"performance",
+    path:"desempenho",
     component: PerformanceComponent
+  },
+  {
+    path:"materias",
+    component: ClassesComponent
   }
 ];
 
