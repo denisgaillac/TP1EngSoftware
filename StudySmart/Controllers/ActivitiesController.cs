@@ -11,17 +11,19 @@ namespace StudySmart.Controllers
     public class ActivitiesController : ControllerBase
     {
         private readonly Context context;
-        private readonly ActivityRules _rules;
+        private readonly ActivityRules _activityRules;
+        private readonly ClassRules _classRules;
 
         public ActivitiesController(Context ContextDB){
             context = ContextDB;
-           _rules = new ActivityRules(context);
+           _activityRules = new ActivityRules(context);
+           _classRules = new ClassRules(context);
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok(_rules.GetActivities());
+            return Ok(_activityRules.GetActivities());
         }
 
         [HttpPost("[Action]")]
@@ -29,7 +31,7 @@ namespace StudySmart.Controllers
         {
             try
             {
-                return Ok(_rules.CreateActivity(activityToCreate));
+                return Ok(_activityRules.CreateActivity(activityToCreate));
             }
             catch(Exception e)
             {
@@ -42,7 +44,7 @@ namespace StudySmart.Controllers
         {
             try
             {
-                return Ok(_rules.DeleteActivity(idToDelete));
+                return Ok(_activityRules.DeleteActivity(idToDelete));
             }
             catch (Exception e)
             {
@@ -55,12 +57,17 @@ namespace StudySmart.Controllers
         {
             try
             {
-                return Ok(_rules.UpdateActivity(activityToUpdate));
+                return Ok(_activityRules.UpdateActivity(activityToUpdate));
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
+        }
+        [HttpGet("[Action]")]
+        public IActionResult GetClasses ()
+        {
+            return Ok(_classRules.GetClasses());
         }
     }
 }
